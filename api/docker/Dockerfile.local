@@ -1,0 +1,21 @@
+# Dockerfile for development environment
+FROM node:19.1.0-alpine
+
+WORKDIR /app
+
+# Install ts-node-dev to rebuild ts to js on change and to restart server process on error
+RUN npm i -g ts-node-dev
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci
+
+COPY . .
+
+RUN npx tsc
+
+EXPOSE 3000
+
+# Run supervised API server
+CMD [ "ts-node-dev", "--inspect=0.0.0.0:9229", "--respawn", "--transpile-only", "/app/src/index.ts" ]
