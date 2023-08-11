@@ -13,5 +13,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '19.1.0'
-      - run: npm ci
-      - run: npm test
+      - run: | 
+          cd api
+          npm ci
+          npm run test
