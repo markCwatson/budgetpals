@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { ValidationError } from 'express-json-validator-middleware';
 
-const setRoutes = require('./routes');
+import setRoutes from './routes';
 
 class Server {
-  public app: express.Application;
+  private app: express.Application;
 
   constructor() {
     this.app = express();
@@ -23,7 +23,15 @@ class Server {
     return this.app;
   }
 
-  set404handler() {
+  getExpressApp() {
+    return this.app;
+  }
+
+  static isEnvValid(env: string): boolean {
+    return ['development', 'production', 'staging'].includes(env);
+  }
+
+  private set404handler() {
     this.app.use((req, res) => {
       res.status(404).send({
         error: {
@@ -35,7 +43,7 @@ class Server {
     });
   }
 
-  setValidatonErrorHandler() {
+  private setValidatonErrorHandler() {
     this.app.use((err, req, res, next) => {
       if (err instanceof ValidationError) {
         res.status(400).send({
@@ -58,10 +66,6 @@ class Server {
       });
     });
   }
-
-  static isEnvValid(env: string): boolean {
-    return ['development', 'production', 'staging'].includes(env);
-  }
 }
 
-export = Server;
+export default Server;

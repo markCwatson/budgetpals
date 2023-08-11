@@ -1,2 +1,2 @@
-module.exports = (action) => async (req, res, next) =>
+export default (action) => async (req, res, next) =>
   Promise.resolve(action(req, res, next)).catch(next);

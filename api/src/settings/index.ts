@@ -1,5 +1,3 @@
-const config = require('./config');
+import config from './config';
 
-module.exports = {
-  config,
-};
+export { config };

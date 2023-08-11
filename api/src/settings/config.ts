@@ -10,7 +10,13 @@ const env = (key, def = null, values = []) => {
   return def;
 };
 
-module.exports = {
+export default {
   API_PORT: env('API_PORT', 3000),
   NODE_ENV: env('NODE_ENV', 'development'),
+  DATABASE: {
+    HOST: env('DATABASE_HOST'),
+    USER: env('DATABASE_USER'),
+    PASSWORD: env('DATABASE_PASSWORD'),
+    NAME: env('DATABASE_NAME'),
+  },
 };

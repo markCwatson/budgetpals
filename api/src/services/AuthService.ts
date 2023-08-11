@@ -1,6 +1,6 @@
 class AuthService {
-  username: any;
-  password: any;
+  private username: string;
+  private password: string;
 
   constructor(username, password) {
     this.username = username;
@@ -12,4 +12,4 @@ class AuthService {
   }
 }
 
-export = AuthService;
+export default AuthService;

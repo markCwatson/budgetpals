@@ -1,10 +1,10 @@
-const express = require('express');
-const { Validator } = require('express-json-validator-middleware');
+import express from 'express';
+import { Validator } from 'express-json-validator-middleware';
 
-const auth = require('./auth');
+import auth from './auth';
 
-module.exports = (app) => {
-  const { validate } = new Validator();
+export default (app) => {
+  const { validate } = new Validator({});
   const api = express.Router();
 
   auth(api, validate);
