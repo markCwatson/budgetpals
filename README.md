@@ -7,7 +7,7 @@ More details to come.
 
 ## Running docker containers and testing
 
-Right now the projet consists of three docker containers: a simple api with few endpoints, an nginx reverse-proxy server, and a database. You can run and test this tandom by following these steps:
+Right now the project consists of three docker containers: a simple api with few endpoints, an nginx reverse-proxy server, and a database. You can run and test this tandom by following these steps:
 
 1. Set you environment variables inside a `.env` file at same level as the `docker-compose.yml` file. Here is an example.
 
