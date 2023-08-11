@@ -8,6 +8,9 @@ describe('POST /auth/token', () => {
     });
 
     expect(response.status).toEqual(200);
+    expect(response.body).toEqual({
+      token: expect.any(String),
+    });
   });
 
   it('should return an error for missing password', async () => {
