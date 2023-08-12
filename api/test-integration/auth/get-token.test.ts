@@ -1,7 +1,7 @@
 import { describe, expect, it, xit } from '@jest/globals';
 
 describe('POST /auth/token', () => {
-  // \todo: hw do get database setup during tests?
+  // \todo: how to get database setup during tests?
   xit('should return token', async () => {
     await global.request.post('/api/users').send({
       firstName: 'John',

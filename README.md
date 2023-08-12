@@ -1,9 +1,9 @@
 [![node CI](https://github.com/markCwatson/budgetpals/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/markCwatson/budgetpals/actions/workflows/node.js.yml)
 
-## budgetpals
+## budgetpals WIP
 I am building a budgeting app that will also allow you to connect with other users.
 
-More details to come.
+The idea is that from within the app, you can see other people's budgets and chat with them anonymously to discuss personal finances and strategies.
 
 ## Running docker containers and testing
 
