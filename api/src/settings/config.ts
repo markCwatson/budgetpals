@@ -19,4 +19,5 @@ export default {
     PASSWORD: env('DATABASE_PASSWORD'),
     NAME: env('DATABASE_NAME'),
   },
+  JWT_SECRET_KEY: env('JWT_SECRET_KEY'),
 };

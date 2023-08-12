@@ -1,7 +1,7 @@
-import Database from './Database';
 import { ObjectId } from 'mongodb';
+import Database from './Database';
 
-interface UserModel {
+export interface UserModel {
   _id?: ObjectId;
   firstName: string;
   lastName: string;
@@ -22,7 +22,7 @@ class UsersRepository {
         .collection('users')
         .findOne({ _id: insertedId }) as Promise<UserModel>;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     return null;
   }
@@ -34,7 +34,19 @@ class UsersRepository {
         .collection('users')
         .findOne({ email }) as Promise<UserModel>;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    }
+    return null;
+  }
+
+  async selectById(id: string): Promise<UserModel | null> {
+    const mongo = await Database.getInstance();
+    try {
+      return mongo.db
+        .collection('users')
+        .findOne({ _id: new ObjectId(id) }) as Promise<UserModel>;
+    } catch (error) {
+      console.error(error);
     }
     return null;
   }
