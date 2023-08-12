@@ -86,3 +86,17 @@ ETag: W/"11-TmxFiV9yGDiFXgKFpU45XSA2HHw"
 ```
 
 Later the token will be a real JWT token.
+
+## Note about bcrypt
+
+When the budgetpals_api container runs, sometime bcrypt cannot be imported properly. If you see these errors, try the following command
+
+```
+docker exec -it budgetpals_api sh
+```
+
+Then when the shell is established,
+
+```
+npm rebuild bcrypt --build-from-source
+```
