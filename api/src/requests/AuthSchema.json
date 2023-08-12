@@ -1,11 +1,11 @@
 {
   "type": "object",
   "required": [
-    "username",
+    "email",
     "password"
   ],
   "properties": {
-    "username": {
+    "email": {
       "type": "string",
       "minLength": 1
     },

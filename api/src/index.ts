@@ -18,7 +18,7 @@ if (!Server.isEnvValid(config.NODE_ENV)) {
   };
 
   try {
-    mongo = await Database.getSingleton();
+    mongo = await Database.getInstance();
 
     const server = new Server();
     server.start().listen(config.API_PORT, () => {

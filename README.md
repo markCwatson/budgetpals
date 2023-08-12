@@ -39,10 +39,34 @@ docker-compose up api
 docker-compose up nginx
 ```
 
-5. You should be able to send http requests to the api uing Postman or `curl`
+5. You should be able to start sending http requests to the api. You can do this using PostMan, but I'll use `curl` in this example: 
+
+First create an account
 
 ```
-curl -i -X POST -H "Content-Type: application/json" -d '{"username": "email@email.com", "password": "password"}' http://localhost:3333/api/auth/token
+curl -i -X POST -H "Content-Type: application/json" -d '{"firstName": "john", "lastName": "doe", "email": "john@email.com", "password": "password"}' http://localhost:3333/api/users
+```
+
+and you should receive a response like
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sat, 12 Aug 2023 00:13:28 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 178
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"b2-1irbhCJO0/QvOoZtZ2+c4kHs768"
+
+{"user":{"_id":"64d6cea8b01cbe2be2221a85","firstName":"john","lastName":"doe","email":"john@email.com","password":"$2b$10$MXuHaXz817kK0QVlsxPey.Knq.QJLx8Evb2zreZjz/x4BUWOinNpe"}}
+```
+
+Then signin in using the email and password from before.
+
+```
+curl -i -X POST -H "Content-Type: application/json" -d '{"email": "john@email.com", "password": "password"}' http://localhost:3333/api/auth/token
 ```
 
 and the response should be
@@ -58,5 +82,7 @@ X-Powered-By: Express
 Access-Control-Allow-Origin: *
 ETag: W/"11-TmxFiV9yGDiFXgKFpU45XSA2HHw"
 
-{"token":"token"}%  
+{"token": "token"}
 ```
+
+Later the token will be a real JWT token.

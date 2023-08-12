@@ -3,10 +3,14 @@ FROM node:19.1.0-alpine
 
 WORKDIR /app
 
+# Install bcypt dependencies
+RUN apk add --no-cache python3 make gcc g++
+
 COPY package.json .
 COPY package-lock.json .
 
 RUN npm ci
+RUN npm rebuild bcrypt --build-from-source
 
 COPY . .
 

@@ -1,8 +1,20 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import { config } from '../settings';
 
-const connectToDatabase = async () => {
-  const { HOST, USER, PASSWORD, NAME } = config.DATABASE;
+interface DatabaseConfig {
+  HOST: string;
+  USER: string;
+  PASSWORD: string;
+  NAME: string;
+}
+
+interface DatabaseConnection {
+  client: MongoClient;
+  db: Db;
+}
+
+const connectToDatabase = async (): Promise<DatabaseConnection> => {
+  const { HOST, USER, PASSWORD, NAME } = config.DATABASE as DatabaseConfig;
 
   const url = `mongodb://${USER}:${PASSWORD}@${HOST}:27017`;
   const client = new MongoClient(url);
@@ -20,8 +32,8 @@ const connectToDatabase = async () => {
 };
 
 export default {
-  instance: null,
-  async getSingleton() {
+  instance: null as DatabaseConnection | null,
+  async getInstance(): Promise<DatabaseConnection> {
     if (this.instance === null) {
       this.instance = await connectToDatabase();
     }
