@@ -50,7 +50,7 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"firstName": "john", "l
 and you should receive a response like
 
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 201 OK
 Server: nginx/1.20.2
 Date: Sat, 12 Aug 2023 00:13:28 GMT
 Content-Type: application/json; charset=utf-8
@@ -63,7 +63,7 @@ ETag: W/"b2-1irbhCJO0/QvOoZtZ2+c4kHs768"
 {"user":{"_id":"64d6cea8b01cbe2be2221a85","firstName":"john","lastName":"doe","email":"john@email.com","password":"$2b$10$MXuHaXz817kK0QVlsxPey.Knq.QJLx8Evb2zreZjz/x4BUWOinNpe"}}
 ```
 
-Then signin in using the email and password from before.
+Then sign in using the email and password from the previous step.
 
 ```
 curl -i -X POST -H "Content-Type: application/json" -d '{"email": "john@email.com", "password": "password"}' http://localhost:3333/api/auth/token
