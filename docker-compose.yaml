@@ -26,6 +26,7 @@ services:
       - DATABASE_USER=$MONGO_ROOT_USR
       - DATABASE_PASSWORD=$MONGO_ROOT_PSW
       - DATABASE_NAME=$MONGO_DB_NAME
+      - JWT_SECRET_KEY=$JWT_SECRET_KEY
     ports:
       - 9229:9229
     volumes:
