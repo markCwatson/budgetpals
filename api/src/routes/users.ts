@@ -3,13 +3,11 @@ import UsersController from '../controllers/UsersController';
 
 import CreateUserSchema from '../requests/CreateUserSchema.json';
 
-import { Express, RequestHandler } from 'express';
+import { Router, RequestHandler } from 'express';
 
-type ValidateFunction = (schema: {
-  body: typeof CreateUserSchema;
-}) => RequestHandler;
+type ValidateFunction = (schema: { body?: any }) => RequestHandler;
 
-const routeConfig = (api: Express, validate: ValidateFunction) => {
+const routeConfig = (api: Router, validate: ValidateFunction) => {
   const handler: RequestHandler = getRouteHandler(UsersController.createUser);
 
   api.post('/users', validate({ body: CreateUserSchema }), handler);

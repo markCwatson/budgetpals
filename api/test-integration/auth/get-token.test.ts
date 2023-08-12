@@ -1,9 +1,17 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, xit } from '@jest/globals';
 
 describe('POST /auth/token', () => {
-  it('should return 200', async () => {
+  // \todo: hw do get database setup during tests?
+  xit('should return token', async () => {
+    await global.request.post('/api/users').send({
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@email.com',
+      password: '12345678',
+    });
+
     const response = await global.request.post('/api/auth/token').send({
-      username: 'email@email.com',
+      email: 'john@email.com',
       password: '12345678',
     });
 

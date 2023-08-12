@@ -1,11 +1,11 @@
 import getRouteHandler from './routeHandler';
 import AuthController from '../controllers/AuthController';
 import AuthSchema from '../requests/AuthSchema.json';
-import { Express, RequestHandler } from 'express';
+import { Router, RequestHandler } from 'express';
 
-type ValidateFunction = (schema: { body: typeof AuthSchema }) => RequestHandler;
+type ValidateFunction = (schema: { body?: any }) => RequestHandler;
 
-const routeConfig = (api: Express, validate: ValidateFunction) => {
+const routeConfig = (api: Router, validate: ValidateFunction) => {
   const handler: RequestHandler = getRouteHandler(AuthController.token);
 
   // obtain tokens by username/password
