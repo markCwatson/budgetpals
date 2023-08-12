@@ -1,5 +1,7 @@
 import { Router, RequestHandler } from 'express';
 
+import auth from '../middleware/auth';
+
 import getRouteHandler from './routeHandler';
 import IncomesController from '../controllers/IncomesController';
 
@@ -10,8 +12,7 @@ type ValidateFunction = (schema: { body?: any }) => RequestHandler;
 const routeConfig = (api: Router, validate: ValidateFunction) => {
   const handler: RequestHandler = getRouteHandler(IncomesController.addIncome);
 
-  // \todo make this an authenticated route
-  api.post('/incomes', validate({ body: AddIncomeSchema }), handler);
+  api.post('/incomes', auth, validate({ body: AddIncomeSchema }), handler);
 };
 
 export default routeConfig;
