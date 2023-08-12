@@ -9,7 +9,7 @@ jest.mock('../../src/settings/config', () => ({
 
 describe('AuthService', () => {
   it('should return a token', async () => {
-    UsersService.prototype.selectByEmail = jest.fn().mockResolvedValue({
+    UsersService.selectByEmail = jest.fn().mockResolvedValue({
       _id: 'id',
       password: 'password',
     });
@@ -20,7 +20,7 @@ describe('AuthService', () => {
   });
 
   it('should decode a token', async () => {
-    UsersService.prototype.selectByEmail = jest.fn().mockResolvedValue({
+    UsersService.selectByEmail = jest.fn().mockResolvedValue({
       _id: 'id',
       password: 'password',
     });

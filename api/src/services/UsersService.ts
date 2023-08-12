@@ -11,9 +11,7 @@ interface CreateUserInput {
 export type User = UserModel;
 
 class UsersService {
-  constructor() {}
-
-  async create(body: CreateUserInput): Promise<any> {
+  static async create(body: CreateUserInput): Promise<any> {
     const { password, email, firstName, lastName } = body;
     const hashedPassword = await AuthService.geHashedPassword(password);
     const usersRepo = new UsersRepository();
@@ -25,7 +23,7 @@ class UsersService {
     });
   }
 
-  async selectByEmail(email: string): Promise<User | null> {
+  static async selectByEmail(email: string): Promise<User | null> {
     const usersRepo = new UsersRepository();
     return usersRepo.selectByEmail(email);
   }

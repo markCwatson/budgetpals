@@ -8,18 +8,28 @@ export default middleware(
   async (req: Request, res: Response, next: NextFunction) => {
     const auth = req.get('authorization');
     if (!auth) {
-      throw new Error('No authorization header');
+      res.status(403).send({ error: 'No authorization header' });
+      return;
     }
 
     const [prefix, token] = auth.split(' ');
     if (!prefix || prefix.toLowerCase() !== 'bearer' || !token) {
-      throw new Error('Invalid authorization header');
+      res.status(403).send({ error: 'Invalid authorization header' });
+      return;
     }
 
-    const decoded = AuthService.decodeAndVerifyToken(token);
-    const user = await UsersService.selectById(decoded.payload.sub);
+    let decoded = null;
+    try {
+      decoded = AuthService.decodeAndVerifyToken(token);
+    } catch (error) {
+      res.status(403).send({ error: error.message });
+      return;
+    }
+
+    const user = await UsersService.selectById(decoded.sub);
     if (!user) {
-      throw new Error('Invalid authorization token');
+      res.status(403).send({ error: 'Invalid authorization token' });
+      return;
     }
 
     res.locals['user'] = user;

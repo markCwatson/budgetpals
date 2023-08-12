@@ -9,8 +9,7 @@ class AuthService {
     email: string,
     password: string,
   ): Promise<string | null> {
-    const usersService = new UsersService();
-    const user: User = await usersService.selectByEmail(email);
+    const user: User = await UsersService.selectByEmail(email);
     if (!user) return null;
 
     const isCorrectPassword = await AuthService.isCorrectPassword(

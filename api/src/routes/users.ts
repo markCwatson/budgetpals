@@ -1,9 +1,10 @@
+import { Router, RequestHandler } from 'express';
+
 import getRouteHandler from './routeHandler';
+
 import UsersController from '../controllers/UsersController';
 
 import CreateUserSchema from '../requests/CreateUserSchema.json';
-
-import { Router, RequestHandler } from 'express';
 
 type ValidateFunction = (schema: { body?: any }) => RequestHandler;
 
