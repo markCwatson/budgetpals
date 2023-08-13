@@ -2,16 +2,34 @@
     "type": "object",
     "required": [
         "amount",
-        "frequency"
+        "description",
+        "frequency",
+        "isEnding",
+        "endDate",
+        "isFixed"
     ],
     "properties": {
         "amount": {
             "type": "number",
             "minimum": 0
         },
+        "description": {
+            "type": "string",
+            "minLength": 1
+        },
         "frequency": {
             "type": "string",
             "minLength": 1
+        },
+        "isEnding": {
+            "type": "boolean"
+        },
+        "endDate": {
+            "type": "string",
+            "minLength": 0
+        },
+        "isFixed": {
+            "type": "boolean"
         }
     }
 }

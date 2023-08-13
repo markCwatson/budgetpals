@@ -1,3 +1,7 @@
+import IncomesRepository, {
+  IncomesModel,
+} from '../repositories/IncomesRepository';
+
 import { User } from './UsersService';
 
 class IncomesService {
@@ -6,13 +10,8 @@ class IncomesService {
     this.account = account;
   }
 
-  async addIncome(amount, frequency) {
-    // \todo use this.account to add income to database
-    return {
-      id: 123,
-      amount,
-      frequency,
-    };
+  async addIncome(income: IncomesModel): Promise<Boolean> {
+    return IncomesRepository.addIncomeByUserId(this.account._id, income);
   }
 }
 

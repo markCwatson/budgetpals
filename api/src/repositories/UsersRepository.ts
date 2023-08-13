@@ -10,9 +10,7 @@ export interface UserModel {
 }
 
 class UsersRepository {
-  constructor() {}
-
-  async create(model: UserModel): Promise<UserModel | null> {
+  static async create(model: UserModel): Promise<UserModel | null> {
     const mongo = await Database.getInstance();
     try {
       const { insertedId } = await mongo.db
@@ -27,7 +25,7 @@ class UsersRepository {
     return null;
   }
 
-  async selectByEmail(email: string): Promise<UserModel | null> {
+  static async selectByEmail(email: string): Promise<UserModel | null> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db
@@ -39,7 +37,7 @@ class UsersRepository {
     return null;
   }
 
-  async selectById(id: string): Promise<UserModel | null> {
+  static async selectById(id: string): Promise<UserModel | null> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db

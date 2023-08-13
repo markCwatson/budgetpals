@@ -10,10 +10,12 @@ class IncomesController {
       return;
     }
 
-    const { amount, frequency } = req.body;
     const incomesService = new IncomesService(account);
-    const income = await incomesService.addIncome(amount, frequency);
-    res.status(200).send({ income });
+    if (!incomesService.addIncome(req.body)) {
+      res.status(400).send({ error: 'Unable to add income' });
+      return;
+    }
+    res.status(200).send({ message: 'Income added' });
   }
 }
 
