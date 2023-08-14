@@ -5,6 +5,7 @@ import auth from '../middleware/auth';
 import getRouteHandler from './routeHandler';
 import IncomesController from '../controllers/IncomesController';
 
+// \todo: schema needs to be changed to accept dates and frequency objectIds
 import AddIncomeSchema from '../requests/AddIncomeSchema.json';
 
 type ValidateFunction = (schema: { body?: any }) => RequestHandler;

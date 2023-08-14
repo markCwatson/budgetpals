@@ -14,8 +14,7 @@ class UsersService {
   static async create(body: CreateUserInput): Promise<any> {
     const { password, email, firstName, lastName } = body;
     const hashedPassword = await AuthService.geHashedPassword(password);
-    const usersRepo = new UsersRepository();
-    return usersRepo.create({
+    return UsersRepository.create({
       firstName,
       lastName,
       email,
@@ -24,13 +23,11 @@ class UsersService {
   }
 
   static async selectByEmail(email: string): Promise<User | null> {
-    const usersRepo = new UsersRepository();
-    return usersRepo.selectByEmail(email);
+    return UsersRepository.selectByEmail(email);
   }
 
   static async selectById(id: string): Promise<User | null> {
-    const usersRepo = new UsersRepository();
-    return usersRepo.selectById(id);
+    return UsersRepository.selectById(id);
   }
 }
 
