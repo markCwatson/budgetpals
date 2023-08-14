@@ -44,7 +44,15 @@ docker-compose up nginx
 First create an account
 
 ```
-curl -i -X POST -H "Content-Type: application/json" -d '{"firstName": "john", "lastName": "doe", "email": "john@email.com", "password": "password"}' http://localhost:3333/api/users
+curl -i -X POST \
+    --url http://localhost:3333/api/users \
+    -H "Content-Type: application/json" \
+    -d '{
+        "firstName": "john",
+        "lastName": "doe",
+        "email": "john@email.com",
+        "password": "password"
+    }'
 ```
 
 and you should receive a response like
@@ -66,10 +74,16 @@ ETag: W/"b2-1irbhCJO0/QvOoZtZ2+c4kHs768"
 Then sign in using the email and password from the previous step.
 
 ```
-curl -i -X POST -H "Content-Type: application/json" -d '{"email": "john@email.com", "password": "password"}' http://localhost:3333/api/auth/token
+curl -i -X POST \
+    --url http://localhost:3333/api/auth/token \
+    -H "Content-Type: application/json" \
+    -d '{
+        "email": "john@email.com",
+        "password": "password"
+    }'
 ```
 
-and the response should be
+and the response should incoude a valid access token
 
 ```
 HTTP/1.1 200 OK
@@ -82,10 +96,8 @@ X-Powered-By: Express
 Access-Control-Allow-Origin: *
 ETag: W/"11-TmxFiV9yGDiFXgKFpU45XSA2HHw"
 
-{"token": "token"}
+{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZW1haWwuY29tIiwiaWF0IjoxNjkyMDE2MDUxLCJleHAiOjE2OTIxMDI0NTEsInN1YiI6IjY0ZDdjOGU1ZWQ4YzYwZTc3ZDkzOWUxYSJ9.HKvLBl1BV57bk5eTPk3sB1QIuOW9n9JsVpKJxVOmvGo"}
 ```
-
-Later the token will be a real JWT token.
 
 ## Note about bcrypt
 
