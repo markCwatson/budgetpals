@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import Database from './Database';
+import ApiError from '../errors/ApiError';
 
 export interface UserModel {
   _id?: ObjectId;
@@ -20,9 +21,11 @@ class UsersRepository {
         .collection('users')
         .findOne({ _id: insertedId }) as Promise<UserModel>;
     } catch (error) {
-      console.error(error);
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
     }
-    return null;
   }
 
   static async selectByEmail(email: string): Promise<UserModel | null> {
@@ -32,9 +35,11 @@ class UsersRepository {
         .collection('users')
         .findOne({ email }) as Promise<UserModel>;
     } catch (error) {
-      console.error(error);
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
     }
-    return null;
   }
 
   static async selectById(id: string): Promise<UserModel | null> {
@@ -44,9 +49,11 @@ class UsersRepository {
         .collection('users')
         .findOne({ _id: new ObjectId(id) }) as Promise<UserModel>;
     } catch (error) {
-      console.error(error);
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
     }
-    return null;
   }
 }
 

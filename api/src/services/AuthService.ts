@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import UsersService, { User } from '../services/UsersService';
 import { config } from '../settings';
+import ApiError from '../errors/ApiError';
 
 class AuthService {
   static async generateToken(
@@ -39,9 +40,17 @@ class AuthService {
       return decoded;
     } catch (err) {
       if (err instanceof jwt.TokenExpiredError) {
-        throw new Error('Authorization token expired');
+        throw new ApiError({
+          code: 403,
+          message: 'Authorization token expired',
+          explanation: 'Please log in again',
+        });
       }
-      throw new Error('Invalid access token');
+      throw new ApiError({
+        code: 403,
+        message: 'Invalid access token',
+        explanation: 'Please log in',
+      });
     }
   }
 
