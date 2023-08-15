@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb';
 import Database from './Database';
+import ApiError from '../errors/ApiError';
 
 export interface IncomesModel {
   _id?: ObjectId;
@@ -27,7 +28,10 @@ class IncomesRepository {
       );
       return result.modifiedCount === 1 || result.upsertedCount === 1;
     } catch (error) {
-      console.error(error);
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
     }
     return false;
   }

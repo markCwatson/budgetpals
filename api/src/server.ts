@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { ValidationError } from 'express-json-validator-middleware';
 
+import errorHandler from './middleware/errorHandler';
 import setRoutes from './routes';
 
 class Server {
@@ -17,7 +17,7 @@ class Server {
 
     setRoutes(this.app);
 
-    this.setValidatonErrorHandler();
+    this.app.use(errorHandler);
     this.set404handler();
 
     return this.app;
@@ -38,30 +38,6 @@ class Server {
           code: 404,
           message: 'API endpoint is not found',
           url: req.originalUrl,
-        },
-      });
-    });
-  }
-
-  private setValidatonErrorHandler() {
-    this.app.use((err, req, res, next) => {
-      if (err instanceof ValidationError) {
-        res.status(400).send({
-          error: {
-            code: 400,
-            message: 'Bad request',
-            explanation:
-              err.validationErrors.body || err.validationErrors.query,
-          },
-        });
-        return;
-      }
-
-      console.error(err);
-      res.status(500).send({
-        error: {
-          code: 500,
-          message: 'Internal Server Error',
         },
       });
     });

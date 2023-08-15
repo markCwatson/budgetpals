@@ -20,7 +20,6 @@ const connectToDatabase = async (): Promise<DatabaseConnection> => {
   const client = new MongoClient(url);
 
   try {
-    console.log(`Connecting to database at url '${url}'`);
     await client.connect();
     console.log(`Connected to database at url '${url}'`);
     return { client, db: client.db(NAME) };
