@@ -4,6 +4,7 @@ import middleware from './';
 import AuthService from '../services/AuthService';
 import UsersService from '../services/UsersService';
 import ApiError from '../errors/ApiError';
+import { ObjectId } from 'mongodb';
 
 export default middleware(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,7 +33,7 @@ export default middleware(
       throw error;
     }
 
-    const user = await UsersService.selectById(decoded.sub);
+    const user = await UsersService.selectById(new ObjectId(decoded.sub));
     if (!user) {
       throw new ApiError({
         code: 403,

@@ -2,7 +2,7 @@
     "type": "object",
     "required": [
         "amount",
-        "description",
+        "categoryId",
         "frequencyId",
         "isEnding",
         "endDate",
@@ -13,7 +13,7 @@
             "type": "number",
             "minimum": 0
         },
-        "description": {
+        "categoryId": {
             "type": "string",
             "minLength": 1
         },
