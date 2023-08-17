@@ -5,8 +5,6 @@ import getRouteHandler from './routeHandler';
 import UsersController from '../controllers/UsersController';
 
 import CreateUserSchema from '../requests/CreateUserSchema.json';
-import AddExpenseSchema from '../requests/AddExpenseSchema.json';
-import AddIncomeSchema from '../requests/AddIncomeSchema.json';
 
 type ValidateFunction = (schema: { body?: any }) => RequestHandler;
 
@@ -17,27 +15,9 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
     getRouteHandler(UsersController.createUser),
   );
 
-  api.put(
-    '/users/incomes',
-    auth,
-    validate({ body: AddIncomeSchema }),
-    getRouteHandler(UsersController.addIncome),
-  );
+  api.get('/users', auth, getRouteHandler(UsersController.getUsers));
 
-  api.get('/users/incomes', auth, getRouteHandler(UsersController.getIncomes));
-
-  api.put(
-    '/users/expenses',
-    auth,
-    validate({ body: AddExpenseSchema }),
-    getRouteHandler(UsersController.addExpense),
-  );
-
-  api.get(
-    '/users/expenses',
-    auth,
-    getRouteHandler(UsersController.getExpenses),
-  );
+  api.delete('/users', auth, getRouteHandler(UsersController.deleteUser));
 };
 
 export default routeConfig;

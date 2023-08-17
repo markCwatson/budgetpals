@@ -3,7 +3,8 @@ import Database from './Database';
 import ApiError from '../errors/ApiError';
 
 export interface IncomesModel {
-  _id?: ObjectId;
+  _id: ObjectId;
+  userId: ObjectId;
   amount: number;
   description: string;
   frequencyId: string;
@@ -18,19 +19,15 @@ class IncomesRepository {
     model: IncomesModel,
   ): Promise<Boolean> {
     const mongo = await Database.getInstance();
+    const income = {
+      ...model,
+      userId,
+    };
     try {
-      const result = await mongo.db.collection('incomes').updateOne(
-        { userId },
-        {
-          $push: {
-            incomes: model,
-          },
-        },
-        {
-          upsert: true,
-        },
-      );
-      return result.modifiedCount === 1 || result.upsertedCount === 1;
+      const { insertedId } = await mongo.db.collection('incomes').insertOne({
+        ...income,
+      });
+      return IncomesRepository.getIncomeById(insertedId.toHexString()) !== null;
     } catch (error) {
       throw new ApiError({
         code: 500,
@@ -39,13 +36,48 @@ class IncomesRepository {
     }
   }
 
-  static async getIncomesByUserId(userId: ObjectId): Promise<IncomesModel[]> {
+  static async getIncomesByUserId(
+    userId: ObjectId,
+  ): Promise<IncomesModel[] | null> {
     const mongo = await Database.getInstance();
     try {
-      const result = await mongo.db
+      return mongo.db
         .collection('incomes')
-        .findOne({ userId }, { projection: { _id: 0, incomes: 1 } });
-      return result.incomes;
+        .find({ userId })
+        .toArray() as Promise<IncomesModel[]>;
+    } catch (error) {
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  static async deleteIncomeById(
+    userId: ObjectId,
+    incomeId: string,
+  ): Promise<Boolean> {
+    const mongo = await Database.getInstance();
+    try {
+      const result = await mongo.db.collection('incomes').deleteOne({
+        userId,
+        _id: new ObjectId(incomeId),
+      });
+      return result.deletedCount === 1;
+    } catch (error) {
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  static async getIncomeById(incomeId: string): Promise<IncomesModel | null> {
+    const mongo = await Database.getInstance();
+    try {
+      return mongo.db.collection('incomes').findOne({
+        _id: new ObjectId(incomeId),
+      }) as Promise<IncomesModel>;
     } catch (error) {
       throw new ApiError({
         code: 500,

@@ -18,6 +18,16 @@ class IncomesService {
   ): Promise<IncomesModel[] | null> {
     return IncomesRepository.getIncomesByUserId(userId);
   }
+
+  static async deleteIncomeById(
+    userId: ObjectId,
+    incomeId: string,
+  ): Promise<Boolean> {
+    const { userId: user } = await IncomesRepository.getIncomeById(incomeId);
+    if (!user) return false;
+    if (!user.equals(userId)) return false;
+    return IncomesRepository.deleteIncomeById(userId, incomeId);
+  }
 }
 
 export default IncomesService;

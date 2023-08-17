@@ -12,6 +12,8 @@ describe('ExpensesService', () => {
     // but it's here in case the addIncomeByUserId method changes in future
 
     const expense: ExpensesModel = {
+      _id: new ObjectId('123456123456123456123456'),
+      userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
       categoryId: '3434343434',
       frequencyId: '1212121212',
@@ -34,6 +36,8 @@ describe('ExpensesService', () => {
     // but it's here in case the getExpensesByUserId method changes in future
 
     const expense: ExpensesModel = {
+      _id: new ObjectId('123456123456123456123456'),
+      userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
       categoryId: '3434343434',
       frequencyId: '1212121212',

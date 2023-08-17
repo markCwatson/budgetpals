@@ -1,10 +1,7 @@
 import { ObjectId } from 'mongodb';
 
-import UsersRepository, { UserModel } from '../repositories/UsersRepository';
 import AuthService from './AuthService';
-import IncomesService, { Income } from './IncomesService';
-import ExpensesService, { Expense } from './ExpensesService';
-import ApiError from '../errors/ApiError';
+import UsersRepository, { UserModel } from '../repositories/UsersRepository';
 
 interface CreateUserInput {
   password: string;
@@ -27,18 +24,14 @@ class UsersService {
     });
   }
 
-  static async addIncomeByUserId(
-    userId: ObjectId,
-    income: Income,
-  ): Promise<Boolean> {
-    return IncomesService.addIncomeByUserId(userId, income);
+  static async getUsers(): Promise<User[]> {
+    return UsersRepository.getUsers();
   }
 
-  static async addExpenseByUserId(
-    userId: ObjectId,
-    income: Expense,
-  ): Promise<Boolean> {
-    return ExpensesService.addExpenseByUserId(userId, income);
+  static async delete(id: ObjectId): Promise<Boolean> {
+    const user = await UsersRepository.selectById(id);
+    if (!user) return false;
+    return UsersRepository.delete(id);
   }
 
   static async selectByEmail(email: string): Promise<User | null> {
@@ -47,14 +40,6 @@ class UsersService {
 
   static async selectById(id: ObjectId): Promise<User | null> {
     return UsersRepository.selectById(id);
-  }
-
-  static async getExpensesByUserId(userId: ObjectId): Promise<Expense[]> {
-    return ExpensesService.getExpensesByUserId(userId);
-  }
-
-  static async getIncomesByUserId(userId: ObjectId): Promise<Income[]> {
-    return IncomesService.getIncomesByUserId(userId);
   }
 }
 
