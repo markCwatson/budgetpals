@@ -1,25 +1,25 @@
-import { describe, expect, it, xit } from '@jest/globals';
+import { describe, expect, it } from '@jest/globals';
 
-// \todo skipping because the POST /incomes route is behind auth. Need to get test database setup first.
+// \todo skipping because the PUT /users/incomes route is behind auth. Need to get test database setup first.
 describe.skip('POST /incomes', () => {
   it('should return an error for missing amount', async () => {
-    const response = await global.request.post('/api/incomes').send({
+    const response = await global.request.put('/api/users/incomes').send({
       description: "Mom's pay",
-      frequency: 'bi-weekly',
+      frequencyId: '12345',
       isEnding: false,
-      endDate: '',
+      endDate: new Date(),
       isFixed: true,
     });
 
     expect(response.status).toEqual(400);
   });
 
-  it('should return an error for missing frequency', async () => {
-    const response = await global.request.post('/api/incomes').send({
+  it('should return an error for missing frequencyId', async () => {
+    const response = await global.request.put('/api/users/incomes').send({
       amount: 4200,
       description: "Mom's pay",
       isEnding: false,
-      endDate: '',
+      endDate: new Date(),
       isFixed: true,
     });
 
@@ -27,12 +27,12 @@ describe.skip('POST /incomes', () => {
   });
 
   it('should return error due to empty frequency string', async () => {
-    const response = await global.request.post('/api/incomes').send({
+    const response = await global.request.put('/api/users/incomes').send({
       amount: 4200,
       description: "Mom's pay",
-      frequency: '',
+      frequencyId: '',
       isEnding: false,
-      endDate: '',
+      endDate: new Date(),
       isFixed: true,
     });
 
@@ -40,12 +40,12 @@ describe.skip('POST /incomes', () => {
   });
 
   it('should successfully add income', async () => {
-    const response = await global.request.post('/api/incomes').send({
+    const response = await global.request.put('/api/users/incomes').send({
       amount: 4200,
       description: "Mom's pay",
-      frequency: 'bi-weekly',
+      frequencyId: '12345',
       isEnding: false,
-      endDate: '',
+      endDate: new Date(),
       isFixed: true,
     });
 

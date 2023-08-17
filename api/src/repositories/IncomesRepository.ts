@@ -5,6 +5,7 @@ import ApiError from '../errors/ApiError';
 export interface IncomesModel {
   _id?: ObjectId;
   amount: number;
+  description: string;
   frequencyId: string;
   isEnding: boolean;
   endDate: Date;
