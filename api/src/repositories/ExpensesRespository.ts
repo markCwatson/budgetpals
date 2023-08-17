@@ -2,28 +2,28 @@ import { ObjectId } from 'mongodb';
 import Database from './Database';
 import ApiError from '../errors/ApiError';
 
-export interface IncomesModel {
+export interface ExpensesModel {
   _id?: ObjectId;
   amount: number;
-  description: string;
+  categoryId: string;
   frequencyId: string;
   isEnding: boolean;
   endDate: Date;
   isFixed: boolean;
 }
 
-class IncomesRepository {
-  static async addIncomeByUserId(
+class ExpensesRepository {
+  static async addExpenseByUserId(
     userId: ObjectId,
-    model: IncomesModel,
+    model: ExpensesModel,
   ): Promise<Boolean> {
     const mongo = await Database.getInstance();
     try {
-      const result = await mongo.db.collection('incomes').updateOne(
+      const result = await mongo.db.collection('expenses').updateOne(
         { userId },
         {
           $push: {
-            incomes: model,
+            expenses: model,
           },
         },
         {
@@ -39,13 +39,13 @@ class IncomesRepository {
     }
   }
 
-  static async getIncomesByUserId(userId: ObjectId): Promise<IncomesModel[]> {
+  static async getExpensesByUserId(userId: ObjectId): Promise<ExpensesModel[]> {
     const mongo = await Database.getInstance();
     try {
       const result = await mongo.db
-        .collection('incomes')
-        .findOne({ userId }, { projection: { _id: 0, incomes: 1 } });
-      return result.incomes;
+        .collection('expenses')
+        .findOne({ userId }, { projection: { _id: 0, expenses: 1 } });
+      return result.expenses;
     } catch (error) {
       throw new ApiError({
         code: 500,
@@ -55,4 +55,4 @@ class IncomesRepository {
   }
 }
 
-export default IncomesRepository;
+export default ExpensesRepository;

@@ -1,17 +1,22 @@
+import { ObjectId } from 'mongodb';
 import IncomesRepository, {
   IncomesModel,
 } from '../repositories/IncomesRepository';
 
-import { User } from './UsersService';
+export type Income = IncomesModel;
 
 class IncomesService {
-  private account: User;
-  constructor(account: User) {
-    this.account = account;
+  static async addIncomeByUserId(
+    userId: ObjectId,
+    income: IncomesModel,
+  ): Promise<Boolean> {
+    return IncomesRepository.addIncomeByUserId(userId, income);
   }
 
-  async addIncome(income: IncomesModel): Promise<Boolean> {
-    return IncomesRepository.addIncomeByUserId(this.account._id, income);
+  static async getIncomesByUserId(
+    userId: ObjectId,
+  ): Promise<IncomesModel[] | null> {
+    return IncomesRepository.getIncomesByUserId(userId);
   }
 }
 

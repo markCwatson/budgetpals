@@ -42,12 +42,12 @@ class UsersRepository {
     }
   }
 
-  static async selectById(id: string): Promise<UserModel | null> {
+  static async selectById(userId: ObjectId): Promise<UserModel | null> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db
         .collection('users')
-        .findOne({ _id: new ObjectId(id) }) as Promise<UserModel>;
+        .findOne({ _id: userId }) as Promise<UserModel>;
     } catch (error) {
       throw new ApiError({
         code: 500,
