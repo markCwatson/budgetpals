@@ -23,6 +23,12 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
     auth,
     getRouteHandler(ExpensesController.deleteExpense),
   );
+
+  api.get(
+    '/expenses/categories',
+    auth,
+    getRouteHandler(ExpensesController.getExpenseCategoryNames),
+  );
 };
 
 export default routeConfig;

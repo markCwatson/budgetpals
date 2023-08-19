@@ -38,6 +38,23 @@ class ExpensesController {
     res.status(200).send(expenses);
   }
 
+  static async getExpenseCategoryNames(
+    req: Request,
+    res: Response,
+  ): Promise<void> {
+    const account = res.locals['user'];
+    if (!account) {
+      throw new ApiError({
+        code: 401,
+        message: 'Unauthorized',
+        explanation: 'You must be logged in to get all expense categories',
+      });
+    }
+
+    const categories = await ExpensesService.getExpenseCategoryNames();
+    res.status(200).send(categories);
+  }
+
   static async deleteExpense(req: Request, res: Response): Promise<void> {
     const account = res.locals['user'];
     if (!account) {

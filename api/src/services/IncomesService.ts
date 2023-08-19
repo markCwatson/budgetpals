@@ -2,6 +2,7 @@ import { ObjectId } from 'mongodb';
 import IncomesRepository, {
   IncomesModel,
 } from '../repositories/IncomesRepository';
+import IncomeCategoryService from './categories/IncomeCategoryService';
 
 export type Income = IncomesModel;
 
@@ -17,6 +18,11 @@ class IncomesService {
     userId: ObjectId,
   ): Promise<IncomesModel[] | null> {
     return IncomesRepository.getIncomesByUserId(userId);
+  }
+
+  static async getIncomeCategoryNames(): Promise<string[] | null> {
+    const categories = new IncomeCategoryService();
+    return categories.getIncomeCategoryNames();
   }
 
   static async deleteIncomeById(
