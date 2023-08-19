@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import Server from '../src/Server';
+import Server from '../src/server';
 
 describe('server', () => {
   describe('isEnvValid', () => {
