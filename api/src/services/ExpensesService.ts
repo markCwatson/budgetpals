@@ -2,10 +2,11 @@ import { ObjectId } from 'mongodb';
 import ExpensesRepository, {
   ExpensesModel,
 } from '../repositories/ExpensesRespository';
+import ExpenseCategoryService from './categories/ExpenseCategoryService';
 
 export type Expense = ExpensesModel;
 
-class IncomesService {
+class ExpensesService {
   static async addExpenseByUserId(
     userId: ObjectId,
     expense: ExpensesModel,
@@ -28,6 +29,11 @@ class IncomesService {
     if (!user.equals(userId)) return false;
     return ExpensesRepository.deleteExpenseById(userId, expenseId);
   }
+
+  static async getExpenseCategoryNames(): Promise<string[] | null> {
+    const categories = new ExpenseCategoryService();
+    return categories.getExpenseCategoryNames();
+  }
 }
 
-export default IncomesService;
+export default ExpensesService;

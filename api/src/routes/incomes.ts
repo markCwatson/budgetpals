@@ -22,6 +22,12 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
     auth,
     getRouteHandler(IncomesController.deleteIncome),
   );
+
+  api.get(
+    '/incomes/categories',
+    auth,
+    getRouteHandler(IncomesController.getIncomeCategoryNames),
+  );
 };
 
 export default routeConfig;

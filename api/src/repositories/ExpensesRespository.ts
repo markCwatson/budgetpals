@@ -85,6 +85,20 @@ class ExpensesRepository {
       });
     }
   }
+
+  static async getExpensesCategories(): Promise<string[] | null> {
+    const mongo = await Database.getInstance();
+    try {
+      return mongo.db
+        .collection('expense-categories')
+        .distinct('name') as Promise<string[]>;
+    } catch (error) {
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
+    }
+  }
 }
 
 export default ExpensesRepository;
