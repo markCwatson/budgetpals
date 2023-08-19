@@ -77,29 +77,13 @@ Then sign in using the email and password from the previous step and save the ac
 TOKEN=$(curl -s -X POST \
     --url http://localhost:3333/api/auth/token \
     -H "Content-Type: application/json" \
-    -d '{ \
-        "email": "john@email.com", \
-        "password": "password" \
+    -d '{
+        "email": "john@email.com",
+        "password": "password"
     }' | jq -r '.access_token')
 ```
 
-and the response should incoude a valid access token
-
-```
-HTTP/1.1 200 OK
-Server: nginx/1.20.2
-Date: Fri, 11 Aug 2023 20:52:44 GMT
-Content-Type: application/json; charset=utf-8
-Content-Length: 17
-Connection: keep-alive
-X-Powered-By: Express
-Access-Control-Allow-Origin: *
-ETag: W/"11-TmxFiV9yGDiFXgKFpU45XSA2HHw"
-
-{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZW1haWwuY29tIiwiaWF0IjoxNjkyMDE2MDUxLCJleHAiOjE2OTIxMDI0NTEsInN1YiI6IjY0ZDdjOGU1ZWQ4YzYwZTc3ZDkzOWUxYSJ9.HKvLBl1BV57bk5eTPk3sB1QIuOW9n9JsVpKJxVOmvGo"}
-```
-
-Then make addditional requests to authenticated routes. For example, get a list of income categories:
+and the response should incoude a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
 
 ```
 curl -i -X GET \
