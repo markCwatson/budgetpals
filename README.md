@@ -83,7 +83,7 @@ TOKEN=$(curl -s -X POST \
     }' | jq -r '.access_token')
 ```
 
-and the response should incoude a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
+and the response should include a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
 
 ```
 curl -i -X GET \
