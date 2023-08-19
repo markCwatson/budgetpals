@@ -71,16 +71,16 @@ ETag: W/"b2-1irbhCJO0/QvOoZtZ2+c4kHs768"
 {"user":{"_id":"64d6cea8b01cbe2be2221a85","firstName":"john","lastName":"doe","email":"john@email.com","password":"$2b$10$MXuHaXz817kK0QVlsxPey.Knq.QJLx8Evb2zreZjz/x4BUWOinNpe"}}
 ```
 
-Then sign in using the email and password from the previous step.
+Then sign in using the email and password from the previous step and save the access token to a local variable.
 
 ```
-curl -i -X POST \
+TOKEN=$(curl -s -X POST \
     --url http://localhost:3333/api/auth/token \
     -H "Content-Type: application/json" \
-    -d '{
-        "email": "john@email.com",
-        "password": "password"
-    }'
+    -d '{ \
+        "email": "john@email.com", \
+        "password": "password" \
+    }' | jq -r '.access_token')
 ```
 
 and the response should incoude a valid access token
@@ -97,6 +97,88 @@ Access-Control-Allow-Origin: *
 ETag: W/"11-TmxFiV9yGDiFXgKFpU45XSA2HHw"
 
 {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZW1haWwuY29tIiwiaWF0IjoxNjkyMDE2MDUxLCJleHAiOjE2OTIxMDI0NTEsInN1YiI6IjY0ZDdjOGU1ZWQ4YzYwZTc3ZDkzOWUxYSJ9.HKvLBl1BV57bk5eTPk3sB1QIuOW9n9JsVpKJxVOmvGo"}
+```
+
+Then make addditional requests to authenticated routes. For example, get a list of income categories:
+
+```
+curl -i -X GET \
+    --url http://localhost:3333/api/incomes/categories \
+    -H "Authorization: Bearer $TOKEN"
+```
+
+and the response should look like:
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sat, 19 Aug 2023 12:14:11 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 317
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"13d-4F7FOdOwtzh+1SPBN1iTrkauq2g"
+
+["Alimony","Annuities","Business Profits","Child Tax Benefit","Dividend Payment","Freelancing/Consulting Fees","Gift","Interest Income","Investment Gains","Other","Paycheck","Pension","Rental Income","Royalties","Scholarships and Grants","Social Security Benefits","Tax Return","Trust Income","Unemployment Benefits"]
+```
+
+Add an income to your account:
+
+```
+curl -i -X PUT \
+    --url http://localhost:3333/api/incomes \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "amount": 1250,
+        "description": "Johns Pay",
+        "frequencyId": "not-used-right-now",
+        "isEnding": false,
+        "endDate": "not-used-right-now",
+        "isFixed": true
+    }'
+```
+
+with response:
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sat, 19 Aug 2023 12:30:25 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 26
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"1a-FDBvt0Ptw6wfOik1kWCz7ysZ0iY"
+
+{"message":"Income added"}
+```
+
+Then fetch the list of incomes for this user:
+
+```
+curl -i -X GET \
+    --url http://localhost:3333/api/incomes \
+    -H "Authorization: Bearer $TOKEN"
+
+```
+
+with response:
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sat, 19 Aug 2023 12:32:30 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 560
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"230-uxQcEudDK/H5oCcLAYYL+vwhC4s"
+
+[{"_id":"64e0b5e1a422f21d9f0d3ca1","amount":1250,"description":"Johns Pay","frequencyId":"not-used-right-now","isEnding":false,"endDate":"not-used-right-now","isFixed":true,"userId":"64dd7c94eecbff4ea13cfb3f"}]
 ```
 
 ## Note about bcrypt
