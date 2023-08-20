@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { MongoServerError, ObjectId } from 'mongodb';
 import Database from './Database';
 import ApiError from '../errors/ApiError';
 
@@ -21,6 +21,8 @@ class UsersRepository {
         .collection('users')
         .findOne({ _id: insertedId }) as Promise<UserModel>;
     } catch (error) {
+      UsersRepository.isDuplicateEmailError(error);
+
       throw new ApiError({
         code: 500,
         message: error.message,
@@ -82,6 +84,21 @@ class UsersRepository {
         code: 500,
         message: error.message,
       });
+    }
+  }
+
+  /** @private */
+  static isDuplicateEmailError(error: MongoServerError): void {
+    if (error instanceof MongoServerError && error.code === 11000) {
+      if (error.keyPattern) {
+        if (typeof error.keyPattern['email'] !== 'undefined') {
+          throw new ApiError({
+            code: 400,
+            message: 'Bad request',
+            explanation: 'Email already exists',
+          });
+        }
+      }
     }
   }
 }

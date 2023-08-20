@@ -39,25 +39,9 @@ docker-compose up api
 docker-compose up nginx
 ```
 
-## Note about bcrypt
+5. You should be able to start sending http requests to the api. You can do this using PostMan, but I'll use `curl` in this example: 
 
-When the budgetpals_api container runs, sometime bcrypt cannot be imported properly. If you see these errors, try the following command
-
-```
-docker exec -it budgetpals_api sh
-```
-
-Then when the shell is established,
-
-```
-npm rebuild bcrypt --build-from-source
-```
-
-## Example use of API
-
-Now that you are up and running, you should be able to start sending http requests to the api. You can do this using PostMan, but I'll use `curl` in this example.
-
-First create an account by providing a first and last name, email, and password.
+First create an account
 
 ```
 curl -i -X POST \
@@ -71,7 +55,7 @@ curl -i -X POST \
     }'
 ```
 
-You should receive a response like the following.
+and you should receive a response like
 
 ```
 HTTP/1.1 201 OK
@@ -87,7 +71,7 @@ ETag: W/"b2-1irbhCJO0/QvOoZtZ2+c4kHs768"
 {"user":{"_id":"64d6cea8b01cbe2be2221a85","firstName":"john","lastName":"doe","email":"john@email.com","password":"$2b$10$MXuHaXz817kK0QVlsxPey.Knq.QJLx8Evb2zreZjz/x4BUWOinNpe"}}
 ```
 
-Next, sign in using the email and password from the previous step and save the access token to a local variable.
+Then sign in using the email and password from the previous step and save the access token to a local variable.
 
 ```
 TOKEN=$(curl -s -X POST \
@@ -99,7 +83,7 @@ TOKEN=$(curl -s -X POST \
     }' | jq -r '.access_token')
 ```
 
-The response should include a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
+and the response should include a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
 
 ```
 curl -i -X GET \
@@ -179,4 +163,18 @@ Access-Control-Allow-Origin: *
 ETag: W/"230-uxQcEudDK/H5oCcLAYYL+vwhC4s"
 
 [{"_id":"64e0b5e1a422f21d9f0d3ca1","amount":1250,"description":"Johns Pay","frequencyId":"not-used-right-now","isEnding":false,"endDate":"not-used-right-now","isFixed":true,"userId":"64dd7c94eecbff4ea13cfb3f"}]
+```
+
+## Note about bcrypt
+
+When the budgetpals_api container runs, sometime bcrypt cannot be imported properly. If you see these errors, try the following command
+
+```
+docker exec -it budgetpals_api sh
+```
+
+Then when the shell is established,
+
+```
+npm rebuild bcrypt --build-from-source
 ```
