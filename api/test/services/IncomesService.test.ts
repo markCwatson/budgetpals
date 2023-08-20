@@ -6,6 +6,9 @@ import IncomesService from '../../src/services/IncomesService';
 import IncomesRepository, {
   IncomesModel,
 } from '../../src/repositories/IncomesRepository';
+import IncomeCategoryService from '../../src/services/categories/IncomeCategoryService';
+import FrequencyService from '../../src/services/FrequencyService';
+import BudgetsService from '../../src/services/BudgetsService';
 
 describe('IncomesService', () => {
   it('should add incomes to user', async () => {
@@ -16,14 +19,21 @@ describe('IncomesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
-      description: "Mom's pay",
-      frequencyId: '1212121212',
+      category: 'Paycheck',
+      frequency: 'weekly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
     };
 
-    IncomesRepository.addIncomeByUserId = jest.fn().mockResolvedValue(true);
+    IncomesRepository.addIncomeByUserId = jest.fn().mockResolvedValue('id');
+    FrequencyService.isValidFrequency = jest.fn().mockResolvedValue(true);
+    IncomeCategoryService.prototype.isValidCategory = jest
+      .fn()
+      .mockResolvedValue(true);
+    BudgetsService.addIncomeToBudgetByUserId = jest
+      .fn()
+      .mockResolvedValue(true);
 
     const result = await IncomesService.addIncomeByUserId(
       new ObjectId('123456123456123456123456'),
@@ -40,8 +50,8 @@ describe('IncomesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
-      description: "Mom's pay",
-      frequencyId: '1212121212',
+      category: 'Paycheck',
+      frequency: 'weekly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,

@@ -17,7 +17,10 @@ class ExpensesService {
     const isValidCategory = await category.isValidCategory(expense.category);
     if (!isValidCategory) return false;
 
-    // \todo: validate frequency
+    const isValidFrequency = await FrequencyService.isValidFrequency(
+      expense.frequency,
+    );
+    if (!isValidFrequency) return false;
 
     const expenseId = await ExpensesRepository.addExpenseByUserId(
       userId,

@@ -5,6 +5,9 @@ import ExpensesService from '../../src/services/ExpensesService';
 import ExpensesRepository, {
   ExpensesModel,
 } from '../../src/repositories/ExpensesRespository';
+import ExpenseCategoryService from '../../src/services/categories/ExpenseCategoryService';
+import FrequencyService from '../../src/services/FrequencyService';
+import BudgetsService from '../../src/services/BudgetsService';
 
 describe('ExpensesService', () => {
   it('should add expenses to user', async () => {
@@ -15,14 +18,21 @@ describe('ExpensesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
-      categoryId: '3434343434',
-      frequencyId: '1212121212',
+      category: 'Housing',
+      frequency: 'monthly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
     };
 
-    ExpensesRepository.addExpenseByUserId = jest.fn().mockResolvedValue(true);
+    ExpensesRepository.addExpenseByUserId = jest.fn().mockResolvedValue('id');
+    FrequencyService.isValidFrequency = jest.fn().mockResolvedValue(true);
+    ExpenseCategoryService.prototype.isValidCategory = jest
+      .fn()
+      .mockResolvedValue(true);
+    BudgetsService.addExpenseToBudgetByUserId = jest
+      .fn()
+      .mockResolvedValue(true);
 
     const result = await ExpensesService.addExpenseByUserId(
       new ObjectId('123456123456123456123456'),
@@ -39,8 +49,8 @@ describe('ExpensesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
-      categoryId: '3434343434',
-      frequencyId: '1212121212',
+      category: 'Housing',
+      frequency: 'monthly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
