@@ -27,7 +27,13 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
   api.get(
     '/expenses/categories',
     auth,
-    getRouteHandler(ExpensesController.getExpenseCategoryNames),
+    getRouteHandler(ExpensesController.getCategoryNames),
+  );
+
+  api.get(
+    '/expenses/frequencies',
+    auth,
+    getRouteHandler(ExpensesController.getFrequencyNames),
   );
 };
 

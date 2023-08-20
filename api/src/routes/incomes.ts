@@ -28,6 +28,12 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
     auth,
     getRouteHandler(IncomesController.getIncomeCategoryNames),
   );
+
+  api.get(
+    '/incomes/frequencies',
+    auth,
+    getRouteHandler(IncomesController.getFrequencyNames),
+  );
 };
 
 export default routeConfig;

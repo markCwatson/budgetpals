@@ -1,23 +1,22 @@
 import { Request, Response } from 'express';
 import ApiError from '../errors/ApiError';
 import ExpensesService, { Expense } from '../services/ExpensesService';
+import AuthService from '../services/AuthService';
 
 class ExpensesController {
   static async addExpense(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to add an income',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
-    if (!ExpensesService.addExpenseByUserId(account._id, req.body as Expense)) {
+    const expenseIsAdded = await ExpensesService.addExpenseByUserId(
+      account._id,
+      req.body as Expense,
+    );
+
+    if (!expenseIsAdded) {
       throw new ApiError({
         code: 400,
-        message: 'Unable to add expense',
-        explanation: 'Something went wrong while adding the expense',
+        message: 'Bad request',
+        explanation: 'Unable to add expense',
       });
     }
 
@@ -25,45 +24,28 @@ class ExpensesController {
   }
 
   static async getExpenses(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to get all expenses',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
     const expenses = await ExpensesService.getExpensesByUserId(account._id);
     res.status(200).send(expenses);
   }
 
-  static async getExpenseCategoryNames(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to get all expense categories',
-      });
-    }
+  static async getCategoryNames(req: Request, res: Response): Promise<void> {
+    AuthService.getAccountFromLocals(res.locals);
 
-    const categories = await ExpensesService.getExpenseCategoryNames();
+    const categories = await ExpensesService.getCategoryNames();
     res.status(200).send(categories);
   }
 
+  static async getFrequencyNames(req: Request, res: Response): Promise<void> {
+    AuthService.getAccountFromLocals(res.locals);
+
+    const frequencies = await ExpensesService.getFrequencyNames();
+    res.status(200).send(frequencies);
+  }
+
   static async deleteExpense(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to delete an expense',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
     const { id } = req.params;
     if (!id) {

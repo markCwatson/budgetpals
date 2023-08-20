@@ -6,8 +6,8 @@ export interface IncomesModel {
   _id: ObjectId;
   userId: ObjectId;
   amount: number;
-  description: string;
-  frequencyId: string;
+  category: string;
+  frequency: string;
   isEnding: boolean;
   endDate: Date;
   isFixed: boolean;
@@ -17,7 +17,7 @@ class IncomesRepository {
   static async addIncomeByUserId(
     userId: ObjectId,
     model: IncomesModel,
-  ): Promise<Boolean> {
+  ): Promise<ObjectId> {
     const mongo = await Database.getInstance();
     const income = {
       ...model,
@@ -27,7 +27,7 @@ class IncomesRepository {
       const { insertedId } = await mongo.db.collection('incomes').insertOne({
         ...income,
       });
-      return IncomesRepository.getIncomeById(insertedId.toHexString()) !== null;
+      return insertedId;
     } catch (error) {
       throw new ApiError({
         code: 500,

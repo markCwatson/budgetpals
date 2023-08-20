@@ -99,7 +99,7 @@ TOKEN=$(curl -s -X POST \
     }' | jq -r '.access_token')
 ```
 
-The response should include a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories:
+The response should include a valid access token which is saved in the `TOKEN` variable. You should now be able to make addditional requests to authenticated routes. For example, get a list of income categories
 
 ```
 curl -i -X GET \
@@ -123,7 +123,31 @@ ETag: W/"13d-4F7FOdOwtzh+1SPBN1iTrkauq2g"
 ["Alimony","Annuities","Business Profits","Child Tax Benefit","Dividend Payment","Freelancing/Consulting Fees","Gift","Interest Income","Investment Gains","Other","Paycheck","Pension","Rental Income","Royalties","Scholarships and Grants","Social Security Benefits","Tax Return","Trust Income","Unemployment Benefits"]
 ```
 
-Add an income to your account:
+and a list of frequencies
+
+```
+curl -i -X GET \
+    --url http://localhost:3333/api/incomes/frequencies \
+    -H "Authorization: Bearer $TOKEN"
+```
+
+with the following response:
+
+```
+TTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sun, 20 Aug 2023 20:46:00 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 63
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"3f-VN/JKlinhnxbt1Vwi1hNpyZu3Y0"
+
+["annually","bi-weekly","daily","monthly","quarterly","weekly"]
+```
+
+Select a category and frequency and add an income to your account:
 
 ```
 curl -i -X PUT \
@@ -132,8 +156,8 @@ curl -i -X PUT \
     -H "Authorization: Bearer $TOKEN" \
     -d '{
         "amount": 1250,
-        "description": "Johns Pay",
-        "frequencyId": "not-used-right-now",
+        "category": "Paycheck",
+        "frequency": "weekly",
         "isEnding": false,
         "endDate": "not-used-right-now",
         "isFixed": true
@@ -178,5 +202,64 @@ X-Powered-By: Express
 Access-Control-Allow-Origin: *
 ETag: W/"230-uxQcEudDK/H5oCcLAYYL+vwhC4s"
 
-[{"_id":"64e0b5e1a422f21d9f0d3ca1","amount":1250,"description":"Johns Pay","frequencyId":"not-used-right-now","isEnding":false,"endDate":"not-used-right-now","isFixed":true,"userId":"64dd7c94eecbff4ea13cfb3f"}]
+[{"_id":"64e0b5e1a422f21d9f0d3ca1","amount":1250,"category":"Paycheck","frequency":"weekly","isEnding":false,"endDate":"not-used-right-now","isFixed":true,"userId":"64dd7c94eecbff4ea13cfb3f"}]
 ```
+
+Now we can add an expense. First, get the list of expense categories.
+
+```
+curl -i -X GET \
+    --url http://localhost:3333/api/expenses/categories \
+    -H "Authorization: Bearer $TOKEN"
+```
+
+with the following response.
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sun, 20 Aug 2023 20:47:47 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 241
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"f1-QMQXN9Qo3+S6ia7blSg2LS4r6UY"
+
+["Cable","Cell Phone(s)","Credit Card","Education","Entertainment","Food","Gifts","Health","Housing","Insurance","Internet","Investments","Kids","Other","Pets","Shopping","Streaming","Student Loans","Subscriptions","Transportation","Travel"]
+```
+
+Now let's add an expense.
+
+```
+curl -i -X PUT \
+    --url http://localhost:3333/api/expenses \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "amount": 1200,
+        "category": "Housing",
+        "frequency": "monthly",
+        "isEnding": false,
+        "endDate": "not-used-right-now",
+        "isFixed": true
+    }'
+```
+
+And the response should look like this.
+
+```
+HTTP/1.1 200 OK
+Server: nginx/1.20.2
+Date: Sun, 20 Aug 2023 20:49:41 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 27
+Connection: keep-alive
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+ETag: W/"1b-XbnqfId+s3Om4raAYUpX828uOz4"
+
+{"message":"expense added"}
+```
+
+Now this user has a budget in the database with one income and one expense so far.

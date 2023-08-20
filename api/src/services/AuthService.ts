@@ -64,6 +64,18 @@ class AuthService {
   ): Promise<boolean> {
     return bcrypt.compare(textPassword, hash);
   }
+
+  static getAccountFromLocals(locals: any): User {
+    const account = locals['user'];
+    if (!account) {
+      throw new ApiError({
+        code: 401,
+        message: 'Unauthorized',
+        explanation: 'You must be logged in to perform this action',
+      });
+    }
+    return account;
+  }
 }
 
 export default AuthService;

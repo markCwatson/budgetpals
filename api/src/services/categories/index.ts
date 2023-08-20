@@ -13,6 +13,10 @@ class Categories {
   async getCategoryNames(): Promise<string[] | null> {
     return CategoriesRepository.getCategoryNames(this.type);
   }
+
+  async isValidCategory(category: string): Promise<boolean> {
+    return CategoriesRepository.isValidCategory(this.type, category);
+  }
 }
 
 export default Categories;

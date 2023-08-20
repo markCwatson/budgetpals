@@ -6,7 +6,5 @@ export default class ExpenseCategoryService extends Categories {
     super(CONSTANSTS.CATEGORY_TYPES.EXPENSE);
   }
 
-  async getExpenseCategoryNames(): Promise<string[] | null> {
-    return super.getCategoryNames();
-  }
+  // calls methods on super with type set to expense
 }

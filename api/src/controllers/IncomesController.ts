@@ -1,19 +1,18 @@
 import { Request, Response } from 'express';
 import ApiError from '../errors/ApiError';
 import IncomesService, { Income } from '../services/IncomesService';
+import AuthService from '../services/AuthService';
 
 class IncomesController {
   static async addIncome(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to add an income',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
-    if (!IncomesService.addIncomeByUserId(account._id, req.body as Income)) {
+    const incomeIsAdded = await IncomesService.addIncomeByUserId(
+      account._id,
+      req.body as Income,
+    );
+
+    if (!incomeIsAdded) {
       throw new ApiError({
         code: 400,
         message: 'Unable to add income',
@@ -25,28 +24,14 @@ class IncomesController {
   }
 
   static async getIncomes(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to get all incomes',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
     const incomes = await IncomesService.getIncomesByUserId(account._id);
     res.status(200).send(incomes);
   }
 
   static async deleteIncome(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to delete an income',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
     const { id } = req.params;
     if (!id) {
@@ -73,17 +58,17 @@ class IncomesController {
     req: Request,
     res: Response,
   ): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to get all income categories',
-      });
-    }
+    AuthService.getAccountFromLocals(res.locals);
 
-    const categories = await IncomesService.getIncomeCategoryNames();
+    const categories = await IncomesService.getCategoryNames();
     res.status(200).send(categories);
+  }
+
+  static async getFrequencyNames(req: Request, res: Response): Promise<void> {
+    AuthService.getAccountFromLocals(res.locals);
+
+    const frequencies = await IncomesService.getFrequencyNames();
+    res.status(200).send(frequencies);
   }
 }
 

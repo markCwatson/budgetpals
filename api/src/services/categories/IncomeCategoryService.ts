@@ -6,7 +6,5 @@ export default class IncomeCategoryService extends Categories {
     super(CONSTANSTS.CATEGORY_TYPES.INCOME);
   }
 
-  async getIncomeCategoryNames(): Promise<string[] | null> {
-    return super.getCategoryNames();
-  }
+  // calls methods on super with type set to income
 }

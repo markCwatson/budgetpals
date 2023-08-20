@@ -3,6 +3,8 @@ import ExpensesRepository, {
   ExpensesModel,
 } from '../repositories/ExpensesRespository';
 import ExpenseCategoryService from './categories/ExpenseCategoryService';
+import BudgetsService from './BudgetsService';
+import FrequencyService from './FrequencyService';
 
 export type Expense = ExpensesModel;
 
@@ -11,7 +13,18 @@ class ExpensesService {
     userId: ObjectId,
     expense: ExpensesModel,
   ): Promise<Boolean> {
-    return ExpensesRepository.addExpenseByUserId(userId, expense);
+    const category = new ExpenseCategoryService();
+    const isValidCategory = await category.isValidCategory(expense.category);
+    if (!isValidCategory) return false;
+
+    // \todo: validate frequency
+
+    const expenseId = await ExpensesRepository.addExpenseByUserId(
+      userId,
+      expense,
+    );
+
+    return BudgetsService.addExpenseToBudgetByUserId(userId, expenseId);
   }
 
   static async getExpensesByUserId(
@@ -30,9 +43,13 @@ class ExpensesService {
     return ExpensesRepository.deleteExpenseById(userId, expenseId);
   }
 
-  static async getExpenseCategoryNames(): Promise<string[] | null> {
+  static async getCategoryNames(): Promise<string[] | null> {
     const categories = new ExpenseCategoryService();
-    return categories.getExpenseCategoryNames();
+    return categories.getCategoryNames();
+  }
+
+  static async getFrequencyNames(): Promise<string[] | null> {
+    return FrequencyService.getFrequencyNames();
   }
 }
 

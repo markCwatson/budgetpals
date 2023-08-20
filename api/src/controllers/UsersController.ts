@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import ApiError from '../errors/ApiError';
 import UsersService from '../services/UsersService';
+import AuthService from '../services/AuthService';
 
 class UsersController {
   static async createUser(req, res): Promise<void> {
@@ -10,28 +11,14 @@ class UsersController {
   }
 
   static async getUsers(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to get all users',
-      });
-    }
+    AuthService.getAccountFromLocals(res.locals);
 
     const users = await UsersService.getUsers();
     res.status(200).send(users);
   }
 
   static async deleteUser(req: Request, res: Response): Promise<void> {
-    const account = res.locals['user'];
-    if (!account) {
-      throw new ApiError({
-        code: 401,
-        message: 'Unauthorized',
-        explanation: 'You must be logged in to delete account',
-      });
-    }
+    const account = AuthService.getAccountFromLocals(res.locals);
 
     if (!UsersService.delete(account._id)) {
       throw new ApiError({

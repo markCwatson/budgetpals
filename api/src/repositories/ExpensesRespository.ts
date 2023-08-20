@@ -6,8 +6,8 @@ export interface ExpensesModel {
   _id: ObjectId;
   userId: ObjectId;
   amount: number;
-  categoryId: string;
-  frequencyId: string;
+  category: string;
+  frequency: string;
   isEnding: boolean;
   endDate: Date;
   isFixed: boolean;
@@ -17,7 +17,7 @@ class ExpensesRepository {
   static async addExpenseByUserId(
     userId: ObjectId,
     model: ExpensesModel,
-  ): Promise<Boolean> {
+  ): Promise<ObjectId> {
     const mongo = await Database.getInstance();
     const expense = {
       ...model,
@@ -27,9 +27,7 @@ class ExpensesRepository {
       const { insertedId } = await mongo.db.collection('expenses').insertOne({
         ...expense,
       });
-      return (
-        ExpensesRepository.getExpenseById(insertedId.toHexString()) !== null
-      );
+      return insertedId;
     } catch (error) {
       throw new ApiError({
         code: 500,
