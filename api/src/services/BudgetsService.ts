@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import BudgetsRepository from '../repositories/BudgetsRepository';
+import BudgetsRepository, { Budget } from '../repositories/BudgetsRepository';
 
 class BudgetsService {
   static async addExpenseToBudgetByUserId(
@@ -25,9 +25,8 @@ class BudgetsService {
     );
   }
 
-  // \todo: implement for getting all budgets in DB
-  static async getAllBudgets() {
-    return [];
+  static async getAllBudgets(): Promise<Budget[]> {
+    return BudgetsRepository.getAllBudgets();
   }
 }
 

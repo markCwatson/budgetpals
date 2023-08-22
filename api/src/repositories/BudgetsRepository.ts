@@ -39,6 +39,19 @@ class BudgetsRepository {
       });
     }
   }
+
+  static async getAllBudgets(): Promise<Budget[]> {
+    const mongo = await Database.getInstance();
+    try {
+      const result = await mongo.db.collection<Budget>('budgets').find();
+      return result.toArray();
+    } catch (error) {
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
+    }
+  }
 }
 
 export default BudgetsRepository;
