@@ -1,6 +1,10 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express';
 
-type ActionFunction = (req: Request, res: Response, next: NextFunction) => any;
+type ActionFunction = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<void>;
 
 const routeHandler =
   (action: ActionFunction): RequestHandler =>
