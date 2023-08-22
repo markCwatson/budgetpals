@@ -1,15 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-
 import ApiError from '../errors/ApiError';
 import ExpensesService, { Expense } from '../services/ExpensesService';
 import AuthService from '../services/AuthService';
+import { ActionFunction } from '../routes/routeHandler';
 
 class ExpensesController {
-  static async addExpense(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  static addExpense: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     const expenseIsAdded = await ExpensesService.addExpenseByUserId(
@@ -26,30 +21,30 @@ class ExpensesController {
     }
 
     res.status(200).json({ message: 'expense added' });
-  }
+  };
 
-  static async getExpenses(req: Request, res: Response): Promise<void> {
+  static getExpenses: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     const expenses = await ExpensesService.getExpensesByUserId(account._id);
     res.status(200).send(expenses);
-  }
+  };
 
-  static async getCategoryNames(req: Request, res: Response): Promise<void> {
+  static getCategoryNames: ActionFunction = async (req, res, next) => {
     AuthService.getAccountFromLocals(res.locals);
 
     const categories = await ExpensesService.getCategoryNames();
     res.status(200).send(categories);
-  }
+  };
 
-  static async getFrequencyNames(req: Request, res: Response): Promise<void> {
+  static getFrequencyNames: ActionFunction = async (req, res, next) => {
     AuthService.getAccountFromLocals(res.locals);
 
     const frequencies = await ExpensesService.getFrequencyNames();
     res.status(200).send(frequencies);
-  }
+  };
 
-  static async deleteExpense(req: Request, res: Response): Promise<void> {
+  static deleteExpense: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     const { id } = req.params;
@@ -71,7 +66,7 @@ class ExpensesController {
     }
 
     res.status(200).json({ message: 'expense deleted' });
-  }
+  };
 }
 
 export default ExpensesController;

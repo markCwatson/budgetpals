@@ -1,6 +1,6 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express';
 
-type ActionFunction = (
+export type ActionFunction = (
   req: Request,
   res: Response,
   next: NextFunction,

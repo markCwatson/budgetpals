@@ -1,27 +1,22 @@
-import { NextFunction, Request, Response } from 'express';
-
 import ApiError from '../errors/ApiError';
 import UsersService from '../services/UsersService';
 import AuthService from '../services/AuthService';
+import { ActionFunction } from '../routes/routeHandler';
 
 class UsersController {
-  static async createUser(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  static createUser: ActionFunction = async (req, res, next) => {
     const user = await UsersService.create(req.body);
     res.status(200).send({ user });
-  }
+  };
 
-  static async getUsers(req: Request, res: Response): Promise<void> {
+  static getUsers: ActionFunction = async (req, res, next) => {
     AuthService.getAccountFromLocals(res.locals);
 
     const users = await UsersService.getUsers();
     res.status(200).send(users);
-  }
+  };
 
-  static async deleteUser(req: Request, res: Response): Promise<void> {
+  static deleteUser: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     if (!UsersService.delete(account._id)) {
@@ -32,7 +27,7 @@ class UsersController {
     }
 
     res.status(200).send({ message: 'Account deleted' });
-  }
+  };
 }
 
 export default UsersController;
