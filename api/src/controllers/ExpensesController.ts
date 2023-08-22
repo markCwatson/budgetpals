@@ -1,10 +1,15 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
 import ApiError from '../errors/ApiError';
 import ExpensesService, { Expense } from '../services/ExpensesService';
 import AuthService from '../services/AuthService';
 
 class ExpensesController {
-  static async addExpense(req: Request, res: Response): Promise<void> {
+  static async addExpense(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     const expenseIsAdded = await ExpensesService.addExpenseByUserId(

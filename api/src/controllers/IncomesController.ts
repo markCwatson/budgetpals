@@ -1,10 +1,15 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
 import ApiError from '../errors/ApiError';
 import IncomesService, { Income } from '../services/IncomesService';
 import AuthService from '../services/AuthService';
 
 class IncomesController {
-  static async addIncome(req: Request, res: Response): Promise<void> {
+  static async addIncome(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     const account = AuthService.getAccountFromLocals(res.locals);
 
     const incomeIsAdded = await IncomesService.addIncomeByUserId(

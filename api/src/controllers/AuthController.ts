@@ -1,8 +1,14 @@
+import { NextFunction, Request, Response } from 'express';
+
 import AuthService from '../services/AuthService';
 import ApiError from '../errors/ApiError';
 
 class AuthController {
-  static async token(req, res): Promise<void> {
+  static async token(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     const { email, password } = req.body;
     const token = await AuthService.generateToken(email, password);
     if (!token) {

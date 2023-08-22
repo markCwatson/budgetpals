@@ -1,9 +1,15 @@
+import { NextFunction, Request, Response } from 'express';
+
 import BudgetsService from '../services/BudgetsService';
 
 class BudgetsController {
-  static async getBudgets(req, res) {
+  static async getBudgets(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     const budgets = await BudgetsService.getAllBudgets();
-    return res.status(200).json(budgets);
+    res.status(200).send(budgets);
   }
 }
 
