@@ -6,7 +6,7 @@ import { ActionFunction } from '../routes/routeHandler';
 class UsersController {
   static createUser: ActionFunction = async (req, res, next) => {
     const user = await UsersService.create(req.body);
-    res.status(200).send({ user });
+    res.status(201).send({ user });
   };
 
   static getUsers: ActionFunction = async (req, res, next) => {
