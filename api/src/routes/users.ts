@@ -16,6 +16,8 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
 
   api.get('/users', auth, getRouteHandler(UsersController.getUsers));
 
+  api.get('/users/me', auth, getRouteHandler(UsersController.getCurrentUser));
+
   api.delete('/users', auth, getRouteHandler(UsersController.deleteUser));
 };
 

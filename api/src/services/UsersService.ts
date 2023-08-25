@@ -28,6 +28,10 @@ class UsersService {
     return UsersRepository.getUsers();
   }
 
+  static async getUserById(id: ObjectId): Promise<User | null> {
+    return UsersRepository.selectById(id);
+  }
+
   static async delete(id: ObjectId): Promise<Boolean> {
     const user = await UsersRepository.selectById(id);
     if (!user) return false;

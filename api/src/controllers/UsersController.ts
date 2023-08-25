@@ -16,6 +16,13 @@ class UsersController {
     res.status(200).send(users);
   };
 
+  static getCurrentUser: ActionFunction = async (req, res, next) => {
+    const account = AuthService.getAccountFromLocals(res.locals);
+
+    const user = await UsersService.getUserById(account._id);
+    res.status(200).send(user);
+  };
+
   static deleteUser: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 
