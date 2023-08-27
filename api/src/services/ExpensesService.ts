@@ -58,7 +58,7 @@ class ExpensesService {
     return FrequencyService.getFrequencyNames();
   }
 
-  private static convertDates(expense: ExpensesModel) {
+  private static convertDates(expense: ExpensesModel): ExpensesModel {
     let expenseToAdd = {
       ...expense,
       date: new Date(expense.date),
