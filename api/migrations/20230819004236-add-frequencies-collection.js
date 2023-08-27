@@ -1,26 +1,30 @@
 const FREQUENCIES = [
   {
-    name: 'daily',
+    name: 'Once',
+    description: 'Just this one time.',
+  },
+  {
+    name: 'Daily',
     description: 'Occurs every day.',
   },
   {
-    name: 'weekly',
+    name: 'Weekly',
     description: 'Occurs every week.',
   },
   {
-    name: 'bi-weekly',
+    name: 'Bi-weekly',
     description: 'Occurs every two weeks.',
   },
   {
-    name: 'monthly',
+    name: 'Monthly',
     description: 'Occurs every month.',
   },
   {
-    name: 'quarterly',
+    name: 'Quarterly',
     description: 'Occurs every three months.',
   },
   {
-    name: 'annually',
+    name: 'Annually',
     description: 'Occurs every year.',
   },
 ];

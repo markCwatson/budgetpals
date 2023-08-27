@@ -5,7 +5,6 @@
         "category",
         "frequency",
         "isEnding",
-        "endDate",
         "isFixed"
     ],
     "properties": {
