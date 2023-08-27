@@ -20,7 +20,7 @@ class ExpensesController {
       });
     }
 
-    res.status(200).json({ message: 'expense added' });
+    res.status(201).json({ message: 'expense added' });
   };
 
   static getExpenses: ActionFunction = async (req, res, next) => {
