@@ -22,9 +22,12 @@ class ExpensesService {
     );
     if (!isValidFrequency) return false;
 
+    // convert dates to Date objects in DB
+    const expenseToAdd = ExpensesService.convertDates(expense);
+
     const expenseId = await ExpensesRepository.addExpenseByUserId(
       userId,
-      expense,
+      expenseToAdd,
     );
 
     return BudgetsService.addExpenseToBudgetByUserId(userId, expenseId);
@@ -53,6 +56,24 @@ class ExpensesService {
 
   static async getFrequencyNames(): Promise<string[] | null> {
     return FrequencyService.getFrequencyNames();
+  }
+
+  private static convertDates(expense: ExpensesModel) {
+    let expenseToAdd = {
+      ...expense,
+      date: new Date(expense.date),
+    };
+
+    if (expense.isEnding === false) {
+      delete expenseToAdd.endDate;
+    } else {
+      expenseToAdd = {
+        ...expenseToAdd,
+        endDate: new Date(expense.endDate),
+      };
+    }
+    
+    return expenseToAdd;
   }
 }
 

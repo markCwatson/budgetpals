@@ -19,15 +19,10 @@ class ExpensesRepository {
     userId: ObjectId,
     model: ExpensesModel,
   ): Promise<ObjectId> {
-    const updatedModel = {
-      ...model,
-      date: new Date(model.date),
-      endDate: new Date(model.endDate),
-    };
-    
+
     const mongo = await Database.getInstance();
     const expense = {
-      ...updatedModel,
+      ...model,
       userId,
     };
     try {
