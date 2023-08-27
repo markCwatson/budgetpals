@@ -6,6 +6,7 @@ export interface ExpensesModel {
   _id: ObjectId;
   userId: ObjectId;
   amount: number;
+  date: Date;
   category: string;
   frequency: string;
   isEnding: boolean;
@@ -18,9 +19,15 @@ class ExpensesRepository {
     userId: ObjectId,
     model: ExpensesModel,
   ): Promise<ObjectId> {
+    const updatedModel = {
+      ...model,
+      date: new Date(model.date),
+      endDate: new Date(model.endDate),
+    };
+    
     const mongo = await Database.getInstance();
     const expense = {
-      ...model,
+      ...updatedModel,
       userId,
     };
     try {
