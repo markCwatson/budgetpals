@@ -20,7 +20,7 @@ class IncomesController {
       });
     }
 
-    res.status(200).send({ message: 'Income added' });
+    res.status(201).send({ message: 'Income added' });
   };
 
   static getIncomes: ActionFunction = async (req, res, next) => {
