@@ -22,7 +22,10 @@ class IncomesService {
     );
     if (!isValidFrequency) return false;
 
-    const incomeId = await IncomesRepository.addIncomeByUserId(userId, income);
+    // convert dates to Date objects in DB
+    const incomeToAdd = IncomesService.convertDates(income);
+
+    const incomeId = await IncomesRepository.addIncomeByUserId(userId, incomeToAdd);
 
     return BudgetsService.addIncomeToBudgetByUserId(userId, incomeId);
   }
@@ -50,6 +53,24 @@ class IncomesService {
     if (!user) return false;
     if (!user.equals(userId)) return false;
     return IncomesRepository.deleteIncomeById(userId, incomeId);
+  }
+
+  private static convertDates(income: IncomesModel): IncomesModel {
+    let incomeToAdd = {
+      ...income,
+      date: new Date(income.date),
+    };
+
+    if (income.isEnding === false) {
+      delete incomeToAdd.endDate;
+    } else {
+      incomeToAdd = {
+        ...incomeToAdd,
+        endDate: new Date(income.endDate),
+      };
+    }
+    
+    return incomeToAdd;
   }
 }
 

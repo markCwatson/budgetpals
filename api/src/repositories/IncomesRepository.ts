@@ -6,6 +6,7 @@ export interface IncomesModel {
   _id: ObjectId;
   userId: ObjectId;
   amount: number;
+  date: Date;
   category: string;
   frequency: string;
   isEnding: boolean;

@@ -4,7 +4,7 @@ const INCOME_CATEGORIES = [
     description: 'Wages, salaries, bonuses, etc.',
   },
   {
-    name: 'Dividend Payment',
+    name: 'Dividend',
     description: 'Income from shares and investments.',
   },
   {
@@ -28,11 +28,11 @@ const INCOME_CATEGORIES = [
     description: 'Retirement benefits and pensions.',
   },
   {
-    name: 'Social Security Benefits',
+    name: 'Social Security',
     description: 'Government support for elderly, disabled, etc.',
   },
   {
-    name: 'Freelancing/Consulting Fees',
+    name: 'Freelancing',
     description: 'Income from freelance work or consulting.',
   },
   {
@@ -52,7 +52,7 @@ const INCOME_CATEGORIES = [
     description: 'Payments from annuity contracts.',
   },
   {
-    name: 'Scholarships and Grants',
+    name: 'Scholarship',
     description: 'Educational support, not typically considered taxable.',
   },
   {
