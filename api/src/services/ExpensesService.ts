@@ -35,8 +35,9 @@ class ExpensesService {
 
   static async getExpensesByUserId(
     userId: ObjectId,
+    filter?: Partial<ExpensesModel>,
   ): Promise<ExpensesModel[] | null> {
-    return ExpensesRepository.getExpensesByUserId(userId);
+    return ExpensesRepository.getExpensesByUserId(userId, filter);
   }
 
   static async deleteExpenseById(
@@ -48,7 +49,7 @@ class ExpensesService {
     if (!user.equals(userId)) return false;
     return ExpensesRepository.deleteExpenseById(userId, expenseId);
   }
-
+  
   static async getCategoryNames(): Promise<string[] | null> {
     const categories = new ExpenseCategoryService();
     return categories.getCategoryNames();

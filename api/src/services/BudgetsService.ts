@@ -1,6 +1,8 @@
 import { ObjectId } from 'mongodb';
 
-import BudgetsRepository, { Budget } from '../repositories/BudgetsRepository';
+import BudgetsRepository, { Budget, UserBudget } from '../repositories/BudgetsRepository';
+import ExpensesService from './ExpensesService';
+import IncomesService from './IncomesService';
 
 class BudgetsService {
   static async addExpenseToBudgetByUserId(
@@ -27,6 +29,15 @@ class BudgetsService {
 
   static async getAllBudgets(): Promise<Budget[]> {
     return BudgetsRepository.getAllBudgets();
+  }
+
+  static async getMyPlannedBudget(userId: ObjectId): Promise<UserBudget> {
+    const expenses = await ExpensesService.getExpensesByUserId(userId, { isPlanned: true });
+    const incomes = await IncomesService.getIncomesByUserId(userId, { isPlanned: true });
+    return {
+      plannedExpenses: expenses || [],
+      plannedIncomes: incomes || [],
+    };
   }
 }
 

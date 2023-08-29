@@ -12,6 +12,7 @@ export interface ExpensesModel {
   isEnding: boolean;
   endDate: Date;
   isFixed: boolean;
+  isPlanned: boolean;
 }
 
 class ExpensesRepository {
@@ -38,12 +39,15 @@ class ExpensesRepository {
     }
   }
 
-  static async getExpensesByUserId(userId: ObjectId): Promise<ExpensesModel[]> {
+  static async getExpensesByUserId(
+    userId: ObjectId,
+    filter?: Partial<ExpensesModel>,
+    ): Promise<ExpensesModel[]> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db
         .collection('expenses')
-        .find({ userId })
+        .find({ userId, ...filter })
         .toArray() as Promise<ExpensesModel[]>;
     } catch (error) {
       throw new ApiError({

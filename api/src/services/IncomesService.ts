@@ -32,8 +32,9 @@ class IncomesService {
 
   static async getIncomesByUserId(
     userId: ObjectId,
+    filter?: Partial<IncomesModel>,
   ): Promise<IncomesModel[] | null> {
-    return IncomesRepository.getIncomesByUserId(userId);
+    return IncomesRepository.getIncomesByUserId(userId, filter);
   }
 
   static async getCategoryNames(): Promise<string[] | null> {

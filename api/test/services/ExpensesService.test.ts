@@ -24,6 +24,7 @@ describe('ExpensesService', () => {
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
+      isPlanned: true,
     };
 
     ExpensesRepository.addExpenseByUserId = jest.fn().mockResolvedValue('id');
@@ -56,6 +57,7 @@ describe('ExpensesService', () => {
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
+      isPlanned: true,
     };
 
     ExpensesRepository.getExpensesByUserId = jest

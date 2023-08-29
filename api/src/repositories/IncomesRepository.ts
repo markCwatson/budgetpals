@@ -12,6 +12,7 @@ export interface IncomesModel {
   isEnding: boolean;
   endDate: Date;
   isFixed: boolean;
+  isPlanned: boolean;
 }
 
 class IncomesRepository {
@@ -39,12 +40,13 @@ class IncomesRepository {
 
   static async getIncomesByUserId(
     userId: ObjectId,
+    filter?: Partial<IncomesModel>,
   ): Promise<IncomesModel[] | null> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db
         .collection('incomes')
-        .find({ userId })
+        .find({ userId, ...filter })
         .toArray() as Promise<IncomesModel[]>;
     } catch (error) {
       throw new ApiError({

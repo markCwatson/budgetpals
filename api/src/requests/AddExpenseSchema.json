@@ -6,7 +6,8 @@
         "category",
         "frequency",
         "isEnding",
-        "isFixed"
+        "isFixed",
+        "isPlanned"
     ],
     "properties": {
         "amount": {
@@ -33,6 +34,9 @@
             "minLength": 0
         },
         "isFixed": {
+            "type": "boolean"
+        },
+        "isPlanned": {
             "type": "boolean"
         }
     }
