@@ -19,11 +19,13 @@ describe('IncomesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
+      date: new Date(),
       category: 'Paycheck',
       frequency: 'weekly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
+      isPlanned: true,
     };
 
     IncomesRepository.addIncomeByUserId = jest.fn().mockResolvedValue('id');
@@ -50,11 +52,13 @@ describe('IncomesService', () => {
       _id: new ObjectId('123456123456123456123456'),
       userId: new ObjectId('023456123456123456123450'),
       amount: 4200,
+      date: new Date(),
       category: 'Paycheck',
       frequency: 'weekly',
       isEnding: false,
       endDate: new Date(),
       isFixed: true,
+      isPlanned: true,
     };
 
     IncomesRepository.getIncomesByUserId = jest.fn().mockResolvedValue(income);
