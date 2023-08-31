@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { Double, ObjectId } from 'mongodb';
 import Database from './Database';
 import ApiError from '../errors/ApiError';
 
@@ -19,18 +19,18 @@ class ExpensesRepository {
   static async addExpenseByUserId(
     userId: ObjectId,
     model: ExpensesModel,
-  ): Promise<ObjectId> {
-
+  ): Promise<Boolean> {
     const mongo = await Database.getInstance();
     const expense = {
       ...model,
       userId,
+      amount: new Double(model.amount), // Ensure it's a Double
     };
     try {
       const { insertedId } = await mongo.db.collection('expenses').insertOne({
         ...expense,
       });
-      return insertedId;
+      return !!insertedId;
     } catch (error) {
       throw new ApiError({
         code: 500,
@@ -42,7 +42,7 @@ class ExpensesRepository {
   static async getExpensesByUserId(
     userId: ObjectId,
     filter?: Partial<ExpensesModel>,
-    ): Promise<ExpensesModel[]> {
+  ): Promise<ExpensesModel[]> {
     const mongo = await Database.getInstance();
     try {
       return mongo.db

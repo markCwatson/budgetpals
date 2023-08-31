@@ -1,43 +1,64 @@
 import { ObjectId } from 'mongodb';
 
-import BudgetsRepository, { Budget, UserBudget } from '../repositories/BudgetsRepository';
-import ExpensesService from './ExpensesService';
-import IncomesService from './IncomesService';
+import BudgetsRepository, {
+  Budget,
+  ClientBudget,
+  BugetConfiguration,
+} from '../repositories/BudgetsRepository';
 
 class BudgetsService {
-  static async addExpenseToBudgetByUserId(
+  static async configureBudgetByUserId(
     userId: ObjectId,
-    expenseId: ObjectId,
+    configuration: BugetConfiguration,
   ): Promise<boolean> {
-    return BudgetsRepository.addItemToBudgetByUserId(
-      userId,
-      expenseId,
-      'expense',
+    const isValidPeriod = await BudgetsService.isValidPeriod(
+      configuration.period,
     );
+    if (!isValidPeriod) return false;
+
+    // convert dates to Date objects in DB
+    const config = BudgetsService.convertDates({
+      ...configuration,
+      runningBalance: configuration.startAccountBalance,
+    });
+
+    return BudgetsRepository.configureBudgetByUserId(userId, config);
   }
 
-  static async addIncomeToBudgetByUserId(
+  static async modifyRunningAccountBalance(
     userId: ObjectId,
-    expenseId: ObjectId,
+    type: 'income' | 'expense',
+    amount: number,
   ): Promise<boolean> {
-    return BudgetsRepository.addItemToBudgetByUserId(
-      userId,
-      expenseId,
-      'income',
-    );
+    if (type === 'expense') {
+      return BudgetsRepository.modifyRunningAccountBalance(userId, -amount);
+    }
+    return BudgetsRepository.modifyRunningAccountBalance(userId, amount);
   }
 
   static async getAllBudgets(): Promise<Budget[]> {
     return BudgetsRepository.getAllBudgets();
   }
 
-  static async getMyPlannedBudget(userId: ObjectId): Promise<UserBudget> {
-    const expenses = await ExpensesService.getExpensesByUserId(userId, { isPlanned: true });
-    const incomes = await IncomesService.getIncomesByUserId(userId, { isPlanned: true });
-    return {
-      plannedExpenses: expenses || [],
-      plannedIncomes: incomes || [],
+  static async getMyBudgetByUserId(
+    userId: ObjectId,
+  ): Promise<ClientBudget | null> {
+    return BudgetsRepository.getBudgetByUserId(userId);
+  }
+
+  private static isValidPeriod(period: String): Promise<boolean> {
+    return BudgetsRepository.isValidPeriod(period);
+  }
+
+  private static convertDates(
+    configuration: BugetConfiguration,
+  ): BugetConfiguration {
+    let config = {
+      ...configuration,
+      startDate: new Date(configuration.startDate),
     };
+
+    return config;
   }
 }
 

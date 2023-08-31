@@ -7,7 +7,6 @@ import ExpensesRepository, {
 } from '../../src/repositories/ExpensesRespository';
 import ExpenseCategoryService from '../../src/services/categories/ExpenseCategoryService';
 import FrequencyService from '../../src/services/FrequencyService';
-import BudgetsService from '../../src/services/BudgetsService';
 
 describe('ExpensesService', () => {
   it('should add expenses to user', async () => {
@@ -27,12 +26,9 @@ describe('ExpensesService', () => {
       isPlanned: true,
     };
 
-    ExpensesRepository.addExpenseByUserId = jest.fn().mockResolvedValue('id');
+    ExpensesRepository.addExpenseByUserId = jest.fn().mockResolvedValue(true);
     FrequencyService.isValidFrequency = jest.fn().mockResolvedValue(true);
     ExpenseCategoryService.prototype.isValidCategory = jest
-      .fn()
-      .mockResolvedValue(true);
-    BudgetsService.addExpenseToBudgetByUserId = jest
       .fn()
       .mockResolvedValue(true);
 

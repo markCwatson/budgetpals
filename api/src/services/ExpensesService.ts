@@ -3,8 +3,8 @@ import ExpensesRepository, {
   ExpensesModel,
 } from '../repositories/ExpensesRespository';
 import ExpenseCategoryService from './categories/ExpenseCategoryService';
-import BudgetsService from './BudgetsService';
 import FrequencyService from './FrequencyService';
+import BudgetsService from './BudgetsService';
 
 export type Expense = ExpensesModel;
 
@@ -25,12 +25,22 @@ class ExpensesService {
     // convert dates to Date objects in DB
     const expenseToAdd = ExpensesService.convertDates(expense);
 
-    const expenseId = await ExpensesRepository.addExpenseByUserId(
+    const result = await ExpensesRepository.addExpenseByUserId(
       userId,
       expenseToAdd,
     );
+    if (!result) return false;
 
-    return BudgetsService.addExpenseToBudgetByUserId(userId, expenseId);
+    if (!expenseToAdd.isPlanned) {
+      // not a planned income means it's income that has already happened
+      await BudgetsService.modifyRunningAccountBalance(
+        userId,
+        'expense',
+        expenseToAdd.amount,
+      );
+    }
+
+    return result;
   }
 
   static async getExpensesByUserId(
@@ -49,7 +59,7 @@ class ExpensesService {
     if (!user.equals(userId)) return false;
     return ExpensesRepository.deleteExpenseById(userId, expenseId);
   }
-  
+
   static async getCategoryNames(): Promise<string[] | null> {
     const categories = new ExpenseCategoryService();
     return categories.getCategoryNames();
@@ -73,7 +83,7 @@ class ExpensesService {
         endDate: new Date(expense.endDate),
       };
     }
-    
+
     return expenseToAdd;
   }
 }

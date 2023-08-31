@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { Double, ObjectId } from 'mongodb';
 import Database from './Database';
 import ApiError from '../errors/ApiError';
 
@@ -19,17 +19,18 @@ class IncomesRepository {
   static async addIncomeByUserId(
     userId: ObjectId,
     model: IncomesModel,
-  ): Promise<ObjectId> {
+  ): Promise<Boolean> {
     const mongo = await Database.getInstance();
     const income = {
       ...model,
       userId,
+      amount: new Double(model.amount), // Ensure it's a Double
     };
     try {
       const { insertedId } = await mongo.db.collection('incomes').insertOne({
         ...income,
       });
-      return insertedId;
+      return !!insertedId;
     } catch (error) {
       throw new ApiError({
         code: 500,

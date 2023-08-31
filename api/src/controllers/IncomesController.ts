@@ -51,6 +51,8 @@ class IncomesController {
       });
     }
 
+    // \todo: update running balance
+
     res.status(200).send({ message: 'Income deleted' });
   };
 

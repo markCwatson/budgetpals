@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": [
+    "startDate",
+    "period",
+    "startAccountBalance"
+  ],
+  "properties": {
+    "startDate": { "type": "string" },
+    "period": { "type": "string" },
+    "startAccountBalance": { "type": "number" }
+  }
+}

@@ -28,12 +28,12 @@ describe('IncomesService', () => {
       isPlanned: true,
     };
 
-    IncomesRepository.addIncomeByUserId = jest.fn().mockResolvedValue('id');
+    IncomesRepository.addIncomeByUserId = jest.fn().mockResolvedValue(true);
     FrequencyService.isValidFrequency = jest.fn().mockResolvedValue(true);
     IncomeCategoryService.prototype.isValidCategory = jest
       .fn()
       .mockResolvedValue(true);
-    BudgetsService.addIncomeToBudgetByUserId = jest
+    BudgetsService.modifyRunningAccountBalance = jest
       .fn()
       .mockResolvedValue(true);
 

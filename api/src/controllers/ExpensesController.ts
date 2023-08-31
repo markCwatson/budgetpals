@@ -65,6 +65,8 @@ class ExpensesController {
       });
     }
 
+    // \todo: update running balance
+
     res.status(200).json({ message: 'expense deleted' });
   };
 }

@@ -3,8 +3,8 @@ import IncomesRepository, {
   IncomesModel,
 } from '../repositories/IncomesRepository';
 import IncomeCategoryService from './categories/IncomeCategoryService';
-import BudgetsService from './BudgetsService';
 import FrequencyService from './FrequencyService';
+import BudgetsService from './BudgetsService';
 
 export type Income = IncomesModel;
 
@@ -24,10 +24,22 @@ class IncomesService {
 
     // convert dates to Date objects in DB
     const incomeToAdd = IncomesService.convertDates(income);
+    const result = await IncomesRepository.addIncomeByUserId(
+      userId,
+      incomeToAdd,
+    );
+    if (!result) return false;
 
-    const incomeId = await IncomesRepository.addIncomeByUserId(userId, incomeToAdd);
+    if (!incomeToAdd.isPlanned) {
+      // not a planned income means it's income that has already happened
+      await BudgetsService.modifyRunningAccountBalance(
+        userId,
+        'income',
+        incomeToAdd.amount,
+      );
+    }
 
-    return BudgetsService.addIncomeToBudgetByUserId(userId, incomeId);
+    return result;
   }
 
   static async getIncomesByUserId(
@@ -70,7 +82,7 @@ class IncomesService {
         endDate: new Date(income.endDate),
       };
     }
-    
+
     return incomeToAdd;
   }
 }
