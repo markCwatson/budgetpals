@@ -32,7 +32,7 @@ class ExpensesService {
     if (!result) return false;
 
     if (!expenseToAdd.isPlanned) {
-      // not a planned income means it's income that has already happened
+      // not a planned expense means it's expense that has already happened
       await BudgetsService.modifyRunningAccountBalance(
         userId,
         'expense',
@@ -54,10 +54,22 @@ class ExpensesService {
     userId: ObjectId,
     expenseId: string,
   ): Promise<Boolean> {
-    const { userId: user } = await ExpensesRepository.getExpenseById(expenseId);
-    if (!user) return false;
-    if (!user.equals(userId)) return false;
-    return ExpensesRepository.deleteExpenseById(userId, expenseId);
+    const expense = await ExpensesRepository.getExpenseById(expenseId);
+    if (!expense.userId) return false;
+    if (!expense.userId.equals(userId)) return false;
+
+    const result = ExpensesRepository.deleteExpenseById(userId, expenseId);
+    if (!result) return false;
+
+    if (!expense.isPlanned) {
+      await BudgetsService.modifyRunningAccountBalance(
+        userId,
+        'expense',
+        -expense.amount,
+      );
+    }
+
+    return result;
   }
 
   static async getCategoryNames(): Promise<string[] | null> {

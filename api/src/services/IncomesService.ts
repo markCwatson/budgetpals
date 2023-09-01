@@ -62,10 +62,23 @@ class IncomesService {
     userId: ObjectId,
     incomeId: string,
   ): Promise<Boolean> {
-    const { userId: user } = await IncomesRepository.getIncomeById(incomeId);
-    if (!user) return false;
-    if (!user.equals(userId)) return false;
-    return IncomesRepository.deleteIncomeById(userId, incomeId);
+    const income = await IncomesRepository.getIncomeById(incomeId);
+    if (!income.userId) return false;
+    if (!income.userId.equals(userId)) return false;
+
+    const result = IncomesRepository.deleteIncomeById(userId, incomeId);
+    if (!result) return false;
+
+    if (!income.isPlanned) {
+      // not a planned income means it's income that has already happened
+      await BudgetsService.modifyRunningAccountBalance(
+        userId,
+        'income',
+        -income.amount,
+      );
+    }
+
+    return result;
   }
 
   private static convertDates(income: IncomesModel): IncomesModel {
