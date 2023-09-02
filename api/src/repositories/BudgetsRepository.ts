@@ -227,6 +227,11 @@ class BudgetsRepository {
 
       return doc as ClientBudget;
     } catch (error) {
+      if (error.message === "Cannot read properties of null (reading '_id')") {
+        // \todo: handle this differently
+        // this happens when the user has no budget configured
+        return null;
+      }
       throw new ApiError({
         code: 500,
         message: error.message,
