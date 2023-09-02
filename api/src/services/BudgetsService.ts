@@ -60,6 +60,10 @@ class BudgetsService {
 
     return config;
   }
+
+  static async getBudgetPeriods(): Promise<String[]> {
+    return BudgetsRepository.getBudgetPeriods();
+  }
 }
 
 export default BudgetsService;

@@ -17,6 +17,12 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
   api.get('/budgets', auth, getRouteHandler(BudgetsController.getBudgets));
 
   api.get('/budget', auth, getRouteHandler(BudgetsController.getMyBudget));
+
+  api.get(
+    '/budget/periods',
+    auth,
+    getRouteHandler(BudgetsController.getBudgetPeriods),
+  );
 };
 
 export default routeConfig;

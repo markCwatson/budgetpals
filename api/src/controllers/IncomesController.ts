@@ -57,15 +57,11 @@ class IncomesController {
   };
 
   static getIncomeCategoryNames: ActionFunction = async (req, res, next) => {
-    AuthService.getAccountFromLocals(res.locals);
-
     const categories = await IncomesService.getCategoryNames();
     res.status(200).send(categories);
   };
 
   static getFrequencyNames: ActionFunction = async (req, res, next) => {
-    AuthService.getAccountFromLocals(res.locals);
-
     const frequencies = await IncomesService.getFrequencyNames();
     res.status(200).send(frequencies);
   };

@@ -32,6 +32,11 @@ class BudgetsController {
     }
     res.status(200).send(budget);
   };
+
+  static getBudgetPeriods: ActionFunction = async (req, res, next) => {
+    const periods = await BudgetsService.getBudgetPeriods();
+    res.status(200).send(periods);
+  };
 }
 
 export default BudgetsController;

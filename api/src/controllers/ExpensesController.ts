@@ -31,15 +31,11 @@ class ExpensesController {
   };
 
   static getCategoryNames: ActionFunction = async (req, res, next) => {
-    AuthService.getAccountFromLocals(res.locals);
-
     const categories = await ExpensesService.getCategoryNames();
     res.status(200).send(categories);
   };
 
   static getFrequencyNames: ActionFunction = async (req, res, next) => {
-    AuthService.getAccountFromLocals(res.locals);
-
     const frequencies = await ExpensesService.getFrequencyNames();
     res.status(200).send(frequencies);
   };

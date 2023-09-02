@@ -139,6 +139,7 @@ class BudgetsRepository {
               },
               as: 'income',
               in: {
+                _id: '$$income._id',
                 amount: '$$income.amount',
                 date: '$$income.date',
                 category: '$$income.category',
@@ -159,6 +160,7 @@ class BudgetsRepository {
               },
               as: 'income',
               in: {
+                _id: '$$income._id',
                 amount: '$$income.amount',
                 date: '$$income.date',
                 category: '$$income.category',
@@ -176,6 +178,7 @@ class BudgetsRepository {
               },
               as: 'expense',
               in: {
+                _id: '$$expense._id',
                 amount: '$$expense.amount',
                 date: '$$expense.date',
                 category: '$$expense.category',
@@ -196,6 +199,7 @@ class BudgetsRepository {
               },
               as: 'expense',
               in: {
+                _id: '$$expense._id',
                 amount: '$$expense.amount',
                 date: '$$expense.date',
                 category: '$$expense.category',
@@ -237,6 +241,22 @@ class BudgetsRepository {
         .collection('budget-periods')
         .findOne({ name: period });
       return !!result;
+    } catch (error) {
+      throw new ApiError({
+        code: 500,
+        message: error.message,
+      });
+    }
+  }
+
+  static async getBudgetPeriods(): Promise<String[]> {
+    const mongo = await Database.getInstance();
+    try {
+      const result = await mongo.db
+        .collection('budget-periods')
+        .find()
+        .toArray();
+      return result.map((period) => period.name);
     } catch (error) {
       throw new ApiError({
         code: 500,
