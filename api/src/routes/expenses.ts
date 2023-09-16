@@ -16,6 +16,7 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
   );
 
   api.get('/expenses', auth, getRouteHandler(ExpensesController.getExpenses));
+  api.get('/expenses/:id', auth, getRouteHandler(ExpensesController.getExpenseById));
 
   api.delete(
     '/expenses/:id',

@@ -30,6 +30,30 @@ class ExpensesController {
     res.status(200).send(expenses);
   };
 
+  static getExpenseById: ActionFunction = async (req, res, next) => {
+    const account = AuthService.getAccountFromLocals(res.locals);
+
+    const { id } = req.params;
+    if (!id) {
+      throw new ApiError({
+        code: 400,
+        message: 'Missing expense id',
+        explanation: 'You must provide an expense id to get',
+      });
+    }
+
+    const expense = await ExpensesService.getExpenseById(account._id, id);
+    if (!expense) {
+      throw new ApiError({
+        code: 404,
+        message: 'Expense not found',
+        explanation: 'Unable to find expense with the provided id',
+      });
+    }
+
+    res.status(200).send(expense);
+  }
+
   static getCategoryNames: ActionFunction = async (req, res, next) => {
     const categories = await ExpensesService.getCategoryNames();
     res.status(200).send(categories);

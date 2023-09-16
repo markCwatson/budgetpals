@@ -50,6 +50,17 @@ class ExpensesService {
     return ExpensesRepository.getExpensesByUserId(userId, filter);
   }
 
+  static async getExpenseById(
+    userId: ObjectId,
+    expenseId: string,
+  ): Promise<ExpensesModel | null> {
+    const expense = await ExpensesRepository.getExpenseById(expenseId);
+    if (!expense.userId) return null;
+    if (!expense.userId.equals(userId)) return null;
+
+    return expense;
+  }
+
   static async deleteExpenseById(
     userId: ObjectId,
     expenseId: string,
