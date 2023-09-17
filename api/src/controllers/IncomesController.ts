@@ -30,6 +30,30 @@ class IncomesController {
     res.status(200).send(incomes);
   };
 
+  static getIncomeById: ActionFunction = async (req, res, next) => {
+    const account = AuthService.getAccountFromLocals(res.locals);
+
+    const { id } = req.params;
+    if (!id) {
+      throw new ApiError({
+        code: 400,
+        message: 'Missing income id',
+        explanation: 'You must provide an income id to get',
+      });
+    }
+
+    const income = await IncomesService.getIncomeById(account._id, id);
+    if (!income) {
+      throw new ApiError({
+        code: 404,
+        message: 'Income not found',
+        explanation: 'Unable to find income with the provided id',
+      });
+    }
+
+    res.status(200).send(income);
+  }
+
   static deleteIncome: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
 

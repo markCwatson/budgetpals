@@ -42,6 +42,17 @@ class IncomesService {
     return result;
   }
 
+  static async getIncomeById(
+    userId: ObjectId,
+    incomeId: string,
+  ): Promise<IncomesModel | null> {
+    const income = await IncomesRepository.getIncomeById(incomeId);
+    if (!income.userId) return null;
+    if (!income.userId.equals(userId)) return null;
+
+    return income;
+  }
+
   static async getIncomesByUserId(
     userId: ObjectId,
     filter?: Partial<IncomesModel>,

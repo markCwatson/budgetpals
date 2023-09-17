@@ -15,6 +15,8 @@ const routeConfig = (api: Router, validate: ValidateFunction) => {
   );
 
   api.get('/incomes', auth, getRouteHandler(IncomesController.getIncomes));
+  api.get('/:id/incomes', auth, getRouteHandler(IncomesController.getIncomeById));
+
 
   api.delete(
     '/incomes/:id',
