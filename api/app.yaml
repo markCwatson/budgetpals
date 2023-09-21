@@ -1,0 +1,12 @@
+runtime: nodejs16
+
+service: default
+
+automatic_scaling:
+  min_instances: 1
+  max_num_instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 1
+  disk_size_gb: 5
