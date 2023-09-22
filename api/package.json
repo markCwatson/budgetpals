@@ -16,6 +16,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "start": "node dist/src/index.js",
+    "gcp-build": "tsc -p .",
     "dev": "concurrently \"npm run watch\" \"nodemon dist/src/index.js\"",
     "migrate": "migrate-mongo up",
     "migrate:down": "migrate-mongo down",
