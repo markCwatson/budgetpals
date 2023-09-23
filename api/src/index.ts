@@ -24,7 +24,7 @@ if (!Server.isEnvValid(config.NODE_ENV)) {
       const migrated = await migration.up(mongo.db, mongo.client);
       if (migrated.length) {
         console.log('Database: migrating...');
-        migrated.forEach((file) => console.log('Migrated: %s', file));
+        migrated.forEach((file: any) => console.log('Migrated: %s', file));
       } else {
         console.log('Database: nothing to migrate');
       }
@@ -32,7 +32,7 @@ if (!Server.isEnvValid(config.NODE_ENV)) {
       console.error('Database: migration failed');
       throw err;
     }
-  }
+  };
 
   try {
     mongo = await Database.getInstance();
