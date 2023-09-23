@@ -39,6 +39,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: create env file
+      run: |
+        touch .env
+        echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
+        echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
+        echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo NODE_ENV=${{ secrets.NODE_ENV }} >> .env
+        echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env
+
     - name: Deploy to App Engine
       id: deploy
       uses: google-github-actions/deploy-appengine@v0.3.1
