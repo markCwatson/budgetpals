@@ -10,7 +10,7 @@
     "outDir": "./dist",
     "types": ["jest"],
   },
-  "include": ["src/**/*.ts", "test/**/*"],
-  "exclude": ["node_modules", "src/tests"],
+  "include": ["src/**/*.ts", "src/*.ts", "test/**/*"],
+  "exclude": ["node_modules"],
   "lib": ["es2015"]
 }
