@@ -51,6 +51,12 @@ jobs:
       with:
         deliverables: api/app.yaml
         project_id: ${{ secrets.GCP_PROJECT_ID }}
+        build_env_vars: |-
+          DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          NODE_ENV=${{ secrets.NODE_ENV }}
+          JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}        
         env_vars: |-
           DATABASE_HOST=${{ secrets.DATABASE_HOST }}
           DATABASE_USER=${{ secrets.DATABASE_USER }}
