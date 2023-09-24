@@ -15,7 +15,7 @@
     "lint": "eslint src",
     "build": "tsc",
     "watch": "tsc --watch",
-    "start": "node dist/src/index.js",
+    "start": "node dist/index.js",
     "gcp-build": "tsc -p tsconfig.prod.json",
     "dev": "concurrently \"npm run watch\" \"nodemon dist/src/index.js\"",
     "migrate": "migrate-mongo up",
