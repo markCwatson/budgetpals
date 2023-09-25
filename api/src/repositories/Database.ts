@@ -17,7 +17,6 @@ const connectToDatabase = async (): Promise<DatabaseConnection> => {
   const { HOST, USER, PASSWORD, NAME } = config.DATABASE as DatabaseConfig;
 
   const url = `mongodb://${USER}:${PASSWORD}@${HOST}:27017`;
-  console.log(url);
   const client = new MongoClient(url);
 
   try {
