@@ -3,7 +3,7 @@ import os
 project_id = os.environ.get('PROJECT_ID')
 region = os.environ.get('REGION')
 connector_name = os.environ.get('CONNECTOR_NAME')
-
+print(f'region: {region}')
 # app.yml file is generate programmatically so as not to expose sensitive info
 with open('api/app.yaml', 'w') as f:
     f.write(f"""runtime: nodejs20
