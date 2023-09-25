@@ -44,6 +44,19 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+        
+    - name: Generate app.yaml
+      env:
+        GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        GCP_REGION: ${{ secrets.GCP_REGION }}
+        GCP_CONNECTOR_NAME: ${{ secrets.GCP_CONNECTOR_NAME }}
+      run: python generate_app_yaml.py
+      
       
     - name: Deploy to App Engine
       id: deploy
