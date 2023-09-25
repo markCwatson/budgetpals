@@ -55,7 +55,7 @@ jobs:
         GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
         GCP_REGION: ${{ secrets.GCP_REGION }}
         GCP_CONNECTOR_NAME: ${{ secrets.GCP_CONNECTOR_NAME }}
-      run: python scripts/generate_app_yaml.py
+      run: python api/scripts/generate_app_yaml.py
       
       
     - name: Deploy to App Engine
