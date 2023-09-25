@@ -57,7 +57,9 @@ jobs:
         GCP_CONNECTOR_NAME: ${{ secrets.GCP_CONNECTOR_NAME }}
       run: python api/scripts/generate_app_yaml.py
       
-      
+    - name: List files in api directory for debugging purposes
+      run: ls -la api/
+
     - name: Deploy to App Engine
       id: deploy
       uses: google-github-actions/deploy-appengine@v1
