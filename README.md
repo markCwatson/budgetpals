@@ -8,9 +8,10 @@ The idea is that from within the app, you can see other people's budgets and cha
 This is the backend (API) for budgetpals. A mobile client is being developed [here (budgetpals_client)](https://github.com/markCwatson/budgetpals_client).
 
 ## Google Cloud Platform
-This API is deployed to Google Cloud Platform (GCP) using the Google App Engine service. The database is running in a Virtual Machine (VM) in Compute Engine. I used a [serverless Virtual Private Cloud (VPC) connector](https://cloud.google.com/appengine/docs/standard/connecting-vpc#console) to connect the App Engine to the VM through the internal VPC network.
+This API is deployed to Google Cloud Platform (GCP) using the Google App Engine service. The database is running in a Virtual Machine (VM) in Compute Engine. I used a [serverless Virtual Private Cloud (VPC) connector](https://cloud.google.com/appengine/docs/standard/connecting-vpc#console) to connect the App Engine to the VM through the internal VPC network. This architecture is illustrated in the image below.
 
-## Running docker containers and testing
+![Alt text](images/budgetpals_api.png)
+## Running locally using docker containers
 
 Right now the project consists of three docker containers: a simple api with few endpoints, an nginx reverse-proxy server, and a database. You can run and test this tandom by following these steps:
 
