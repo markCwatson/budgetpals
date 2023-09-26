@@ -11,7 +11,7 @@ const env = (key, def = null, values = []) => {
 };
 
 export default {
-  API_PORT: env('API_PORT', 3000),
+  PORT: env('PORT', 3000),
   NODE_ENV: env('NODE_ENV', 'development'),
   DATABASE: {
     HOST: env('DATABASE_HOST'),

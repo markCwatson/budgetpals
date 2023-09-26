@@ -39,9 +39,9 @@ if (!Server.isEnvValid(config.NODE_ENV)) {
     await migrate();
 
     const server = new Server();
-    server.start().listen(config.API_PORT, () => {
+    server.start().listen(config.PORT, () => {
       console.log(
-        `Server started in '${config.NODE_ENV}' mode and now listening port ${config.API_PORT}`,
+        `Server started in '${config.NODE_ENV}' mode and now listening port ${config.PORT}`,
       );
     });
   } catch (err) {
