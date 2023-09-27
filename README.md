@@ -13,7 +13,7 @@ This API is deployed to Google Cloud Platform (GCP) using the Google App Engine 
 ![Alt text](images/budgetpals_api.png)
 ## Running locally using docker containers
 
-Right now the project consists of three docker containers: a simple api with few endpoints, an nginx reverse-proxy server, and a database. You can run and test this tandom by following these steps:
+The project uses Docker to run locally. It consists of three docker containers: a simple api with few endpoints, an nginx reverse-proxy server, and a database. You can run and test this local test setup by following these steps:
 
 1. Set you environment variables inside a `.env` file at same level as the `docker-compose.yml` file. Here is an example.
 
