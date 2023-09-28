@@ -1,4 +1,4 @@
-[![Test CI](https://github.com/markCwatson/budgetpals_api/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/markCwatson/budgetpals_api/actions/workflows/test.yml) [![Deploy CI](https://github.com/markCwatson/budgetpals_api/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/markCwatson/budgetpals_api/actions/workflows/deploy.yml)
+[![Test CI](https://github.com/markCwatson/budgetpals_api/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/markCwatson/budgetpals_api/actions/workflows/test.yml) [![Deploy CI](https://github.com/markCwatson/budgetpals_api/actions/workflows/deploy.yml/badge.svg)](https://github.com/markCwatson/budgetpals_api/actions/workflows/deploy.yml)
 
 ## budgetpals API (WIP)
 I am building a budgeting app that will also allow you to connect with other users.
