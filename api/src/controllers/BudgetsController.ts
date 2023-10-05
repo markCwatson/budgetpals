@@ -26,10 +26,6 @@ class BudgetsController {
   static getMyBudget: ActionFunction = async (req, res, next) => {
     const account = AuthService.getAccountFromLocals(res.locals);
     const budget = await BudgetsService.getMyBudgetByUserId(account._id);
-    if (!budget) {
-      res.status(400).send({ message: 'Budget not found' });
-      return;
-    }
     res.status(200).send(budget);
   };
 
